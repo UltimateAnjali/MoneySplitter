@@ -32,12 +32,19 @@
             android:gravity="center"/>
 
         <AutoCompleteTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/memberATV"
             android:hint="Member Name"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:ems="10"
+            android:completionThreshold="1" >
+            <!--android:drawableRight="@drawable/ic_finder"-->
 
+
+            <!-- On the Activity Start, focus will be on the AutoCompleteTextView -->
+            <requestFocus />
+        </AutoCompleteTextView>
     </LinearLayout>
 
 </RelativeLayout>
