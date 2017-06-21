@@ -10,15 +10,21 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 import static android.Manifest.*;
 
 public class CreateGroup extends Activity {
 
     private AutoCompleteTextView mMemberName;
+    private ListView memberList;
     public static int PERMISSION_REQUEST_CONTACT = 0;
+    private static ArrayList<String> moji = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +55,33 @@ public class CreateGroup extends Activity {
         }
     }
 
-    public void setData(){
-        mMemberName = (AutoCompleteTextView) findViewById(R.id.memberATV);
-        mMemberName.setAdapter(new ArrayAdapter<String>(getApplicationContext(),
-                R.layout.single_contact, R.id.tv_ContactName, getAllContactNames()));
-    }
-
     private void requestContactPermission(){
         ActivityCompat.requestPermissions(this,new String[]{permission.READ_CONTACTS},PERMISSION_REQUEST_CONTACT);
+    }
+
+    public void setData(){
+        mMemberName = (AutoCompleteTextView) findViewById(R.id.memberATV);
+        final ArrayAdapter<String> myAdp = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.single_contact, R.id.tv_ContactName, getAllContactNames());
+        mMemberName.setAdapter(myAdp);
+
+        mMemberName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(),"You chose: "+ parent.getItemAtPosition(position).toString(),
+                        Toast.LENGTH_SHORT).show();
+                moji.add(parent.getItemAtPosition(position).toString());
+                setList();
+            }
+        });
+    }
+
+    public void setList(){
+        memberList = (ListView)findViewById(R.id.myList);
+        ArrayAdapter<String> adp = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.single_contact,R.id.tv_ContactName,moji);
+        memberList.setAdapter(adp);
+        mMemberName.setText(null);
     }
 
     private List<String> getAllContactNames() {

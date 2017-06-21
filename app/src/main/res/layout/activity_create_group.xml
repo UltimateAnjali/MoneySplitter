@@ -39,12 +39,14 @@
             android:layout_height="55dp"
             android:ems="10"
             android:completionThreshold="1" >
-            <!--android:drawableRight="@drawable/ic_finder"-->
-
-
-            <!-- On the Activity Start, focus will be on the AutoCompleteTextView -->
-            <requestFocus />
         </AutoCompleteTextView>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/myList">
+
+        </ListView>
     </LinearLayout>
 
 </RelativeLayout>
