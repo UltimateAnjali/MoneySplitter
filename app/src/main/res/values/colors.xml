@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00796B</color>
-    <color name="colorPrimaryDark">#00695C</color>
-    <color name="colorAccent">#00796B</color>
+    <color name="colorPrimary">#4285F4</color>
+    <color name="colorPrimaryDark">#1565C0</color>
+    <color name="colorAccent">#1976D2</color>
     <color name="activeDot">#757575</color>
     <color name="inactiveDot">#9A9A9A</color>
     <color name="backgroundColor">#ECECEC</color>
-    <color name="appNameTextColor">#E65100</color>
-    <color name="sliderTitleColor">#FF6D00</color>
-    <color name="sliderTextColor">#F57C00</color>
+    <color name="appNameTextColor">#D84315</color>
+    <color name="sliderTitleColor">#F4511E</color>
+    <color name="sliderTextColor">#FF6E40</color>
     <color name="loginBtnBackground">#4285F4</color>
     <color name="loginBtnRipple">#42A5F5</color>
 </resources>
