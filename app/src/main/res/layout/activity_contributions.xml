@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.handout.anjalidesai.moneysplitter.capital.handout.anjalidesai.moneysplitter.Contributions">
+    tools:context="capital.handout.paisa.moneysplitter.Contributions">
 
     <TextView
         android:layout_width="match_parent"

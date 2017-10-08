@@ -10,6 +10,26 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="@dimen/slider_icon_size"
+            android:layout_height="@dimen/slider_icon_size"
+            android:id="@+id/slide2Img"
+            android:contentDescription="@string/contentDes"
+            android:src="@drawable/_001_finance"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/slide2Title"
+            android:text="@string/slider2Title"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:textSize="@dimen/slider_text_size"
+            android:textColor="@color/sliderTitleColor"
+            android:textStyle="bold"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,15 +39,6 @@
             android:gravity="center"
             android:padding="20dp"
             android:textSize="@dimen/slider_text_size"
-            android:textColor="@color/sliderTextBlue"/>
-
-        <ImageView
-            android:layout_width="@dimen/slider_icon_size"
-            android:layout_height="@dimen/slider_icon_size"
-            android:id="@+id/slide2Img"
-            android:contentDescription="@string/contentDes"
-            android:src="@drawable/_001_finance"
-            android:layout_gravity="center" />
-
+            android:textColor="@color/sliderTextColor"/>
     </LinearLayout>
 </RelativeLayout>

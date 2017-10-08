@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.handout.anjalidesai.moneysplitter.capital.handout.anjalidesai.moneysplitter.LoginActivity"
+    tools:context="capital.handout.paisa.moneysplitter.LoginActivity"
     android:background="@color/backgroundColor">
 
     <TextView
@@ -13,9 +13,10 @@
         android:id="@+id/appName"
         android:text="@string/app_name"
         android:textSize="@dimen/app_name_text_size"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/appNameTextColor"
         android:gravity="center"
-        android:layout_marginTop="80dp"/>
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="80dp"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
@@ -41,6 +42,8 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginBottom="20dp"
-        android:text="Login" />
+        android:text="@string/google_sign_in"
+        style="@style/loginBtn"
+        android:textAllCaps="false"/>
 
 </RelativeLayout>

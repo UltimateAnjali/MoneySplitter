@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">MoneySplitter</string>
-    <string name="slider1">Slide 1</string>
-    <string name="slider2">Slide 2</string>
-    <string name="slider3">Slide 3</string>
+    <string name="google_sign_in">Sign In With Google</string>
+    <string name="slider1Title">Share</string>
+    <string name="slider2Title">Select</string>
+    <string name="slider3Title">Balance</string>
+    <string name="slider1">Share the expenses with your friends, room-mates or colleagues smartly</string>
+    <string name="slider2">Select the items in which you want to contribute.</string>
+    <string name="slider3">View your balance status and choose to spend your money wisely.</string>
     <string name="contentDes">Icon</string>
 </resources>
