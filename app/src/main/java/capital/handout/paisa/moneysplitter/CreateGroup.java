@@ -1,4 +1,4 @@
-package com.example.anjalidesai.moneysplitter;
+package capital.handout.paisa.moneysplitter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import static android.Manifest.*;

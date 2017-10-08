@@ -1,4 +1,4 @@
-package com.example.anjalidesai.moneysplitter;
+package capital.handout.paisa.moneysplitter;
 
 import org.junit.Test;
 

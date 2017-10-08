@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "736088596630",
+    "firebase_url": "https://moneysplitterdata.firebaseio.com",
+    "project_id": "moneysplitterdata",
+    "storage_bucket": "moneysplitterdata.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736088596630:android:61bc0d3a73930821",
+        "android_client_info": {
+          "package_name": "capital.handout.paisa.moneysplitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "736088596630-m2ku57m1tn9m994p9o75ausufscg5pas.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-XQ5Kvlevxp269vNfeNLycPSVbV9-Rlw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

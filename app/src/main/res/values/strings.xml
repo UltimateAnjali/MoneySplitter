@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MoneySplitter</string>
+    <string name="slider1">Slide 1</string>
+    <string name="slider2">Slide 2</string>
+    <string name="slider3">Slide 3</string>
+    <string name="contentDes">Icon</string>
 </resources>

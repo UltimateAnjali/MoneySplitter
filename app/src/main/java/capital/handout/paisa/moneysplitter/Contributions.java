@@ -1,4 +1,4 @@
-package com.example.anjalidesai.moneysplitter;
+package capital.handout.paisa.moneysplitter;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
