@@ -5,7 +5,7 @@
     <string name="slider2Title">Select</string>
     <string name="slider3Title">Balance</string>
     <string name="slider1">Share the expenses with your friends, room-mates or colleagues smartly</string>
-    <string name="slider2">Select the items in which you want to contribute.</string>
-    <string name="slider3">View your balance status and choose to spend your money wisely.</string>
+    <string name="slider2">Select only those items in which you want to contribute and reject the rest</string>
+    <string name="slider3">View your balance status and choose to spend your money wisely</string>
     <string name="contentDes">Icon</string>
 </resources>
