@@ -1,14 +1,14 @@
-package capital.handout.paisa.moneysplitter;
+package com.proj.balance.money;
 
 import java.util.ArrayList;
 import java.util.List;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.app.Activity;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,9 +16,10 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import static android.Manifest.*;
 
-public class CreateGroup extends Activity {
+public class CreateGroup extends AppCompatActivity {
 
     private AutoCompleteTextView mMemberName;
     private ListView memberList;
@@ -33,7 +34,7 @@ public class CreateGroup extends Activity {
         checkContactPermission();
     }
 
-    void checkContactPermission(){
+    public void checkContactPermission(){
         if(ActivityCompat.checkSelfPermission(this, permission.READ_CONTACTS)!=PackageManager.PERMISSION_GRANTED){
             requestContactPermission();
         }

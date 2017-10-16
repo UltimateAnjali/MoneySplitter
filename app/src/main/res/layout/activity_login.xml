@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="capital.handout.paisa.moneysplitter.LoginActivity"
+    tools:context="com.proj.balance.money.LoginActivity"
     android:background="@color/backgroundColor">
 
     <TextView

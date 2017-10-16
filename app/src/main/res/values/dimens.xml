@@ -2,6 +2,6 @@
 <resources>
     <dimen name="slider_icon_size">100dp</dimen>
     <dimen name="slider_text_size">18sp</dimen>
-    <dimen name="app_name_text_size">25sp</dimen>
+    <dimen name="app_name_text_size">27sp</dimen>
     <dimen name="button_text_size">18sp</dimen>
 </resources>

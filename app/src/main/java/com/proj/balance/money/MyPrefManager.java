@@ -1,4 +1,4 @@
-package capital.handout.paisa.moneysplitter;
+package com.proj.balance.money;
 
 import android.content.Context;
 import android.content.SharedPreferences;

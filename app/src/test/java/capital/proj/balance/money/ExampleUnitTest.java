@@ -1,4 +1,4 @@
-package capital.handout.paisa.moneysplitter;
+package capital.proj.balance.money;
 
 import org.junit.Test;
 

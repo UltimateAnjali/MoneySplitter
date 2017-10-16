@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "736088596630",
-    "firebase_url": "https://moneysplitterdata.firebaseio.com",
-    "project_id": "moneysplitterdata",
-    "storage_bucket": "moneysplitterdata.appspot.com"
+    "project_number": "315842412362",
+    "firebase_url": "https://moneysplitter-10064.firebaseio.com",
+    "project_id": "moneysplitter-10064",
+    "storage_bucket": "moneysplitter-10064.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:736088596630:android:61bc0d3a73930821",
+        "mobilesdk_app_id": "1:315842412362:android:eff97c5bf79189ec",
         "android_client_info": {
-          "package_name": "capital.handout.paisa.moneysplitter"
+          "package_name": "com.proj.balance.money"
         }
       },
       "oauth_client": [
         {
-          "client_id": "736088596630-m2ku57m1tn9m994p9o75ausufscg5pas.apps.googleusercontent.com",
+          "client_id": "315842412362-uur9f9u4o4fgmoqv3rke5tnakt7bk4sv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.proj.balance.money",
+            "certificate_hash": "ce1ce6e416fc4f6481ce1cf51a29d7cf7c56bbad"
+          }
+        },
+        {
+          "client_id": "315842412362-2acua5al5j5gp5q5komsirko9up83053.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD-XQ5Kvlevxp269vNfeNLycPSVbV9-Rlw"
+          "current_key": "AIzaSyCGYsfYrpFbq0rvrATwbNi7kVSnq5avdl8"
         }
       ],
       "services": {
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315842412362-2acua5al5j5gp5q5komsirko9up83053.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
