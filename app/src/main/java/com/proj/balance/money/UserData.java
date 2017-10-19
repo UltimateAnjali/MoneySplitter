@@ -15,13 +15,13 @@ public class UserData implements Serializable {
     public static String userFamilyName;
     public static String userEmail;
     public static String userId;
-    public static Uri userPhoto;
+    public static String userPhoto;
 
     public UserData(){
     }
 
     public UserData(String mUserName, String mUserGivenName, String mUserFamilyName,
-                    String mUserEmail, String mUserId, Uri mUserpic){
+                    String mUserEmail, String mUserId, String mUserpic){
         this.userName = mUserName;
         this.userGivenName = mUserGivenName;
         this.userFamilyName = mUserFamilyName;
@@ -51,9 +51,7 @@ public class UserData implements Serializable {
         this.userId = userId;
     }
 
-    public void setUserPhoto(Uri userPhoto) {
-        this.userPhoto = userPhoto;
-    }
+
 
 
     //Getters
@@ -77,7 +75,11 @@ public class UserData implements Serializable {
         return userId;
     }
 
-    public Uri getUserPhoto() {
+    public String getUserPhoto() {
         return userPhoto;
+    }
+
+    public void setUserPhoto(String userPhoto) {
+        UserData.userPhoto = userPhoto;
     }
 }

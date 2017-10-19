@@ -31,6 +31,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener{
@@ -53,7 +55,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final String TAG = "+Login Act::::::::+";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private UserData userData;
+    public UserData userData;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +112,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         //Getting firebase instance
         mAuth = FirebaseAuth.getInstance();
+
+        //Configure database reference
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener(){
             @Override
@@ -189,8 +195,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             String personFamilyName = acct.getFamilyName();
                             String personEmail = acct.getEmail();
                             String personId = acct.getId();
-                            Uri personPhoto = acct.getPhotoUrl();
+                            String personPhoto = String.valueOf(acct.getPhotoUrl());
+                            //Log.d(TAG,"------------->>>>>>"+uid);
+                          //  userData.setUserEmail("lel@gmail.com");
                             userData = new UserData(personName, personGivenName, personFamilyName, personEmail, personId, personPhoto);
+                            mDatabase.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userData);
                             Intent intent = new Intent(getApplicationContext(), Contributions.class);
                             startActivity(intent);
                             finish();
