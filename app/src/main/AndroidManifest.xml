@@ -11,15 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.proj.balance.money.LoginActivity" android:theme="@style/LoginPageTheme">
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/LoginPageTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.proj.balance.money.Contributions" android:theme="@style/AppTheme"/>
-        <activity android:name="com.proj.balance.money.CreateGroup" android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".CreateGroup"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

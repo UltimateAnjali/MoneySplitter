@@ -8,4 +8,7 @@
     <string name="slider2">Select only those items in which you want to contribute and reject the rest</string>
     <string name="slider3">View your balance status and choose to spend your money wisely</string>
     <string name="contentDes">Icon</string>
+    <string name="menu_item_1">Groups</string>
+    <string name="menu_item_2">Owings</string>
+    <string name="menu_item_3">Profile</string>
 </resources>

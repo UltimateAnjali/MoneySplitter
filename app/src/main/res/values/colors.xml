@@ -11,4 +11,5 @@
     <color name="sliderTextColor">#FF6E40</color>
     <color name="loginBtnBackground">#4285F4</color>
     <color name="loginBtnRipple">#42A5F5</color>
+    <color name="tintColor">#FFFFFF</color>
 </resources>

@@ -169,7 +169,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 // Google Sign In failed, update UI appropriately
                 // [START_EXCLUDE]
                 //updateUI(null);
-                Toast.makeText(this,"Help"+result.getStatus(),Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Sign In Failed",Toast.LENGTH_LONG).show();
                 // [END_EXCLUDE]
             }
         }
@@ -200,7 +200,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                           //  userData.setUserEmail("lel@gmail.com");
                             userData = new UserData(personName, personGivenName, personFamilyName, personEmail, personId, personPhoto);
                             mDatabase.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userData);
-                            Intent intent = new Intent(getApplicationContext(), Contributions.class);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                             finish();
                         }
@@ -235,7 +235,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void launchHomeScreen() {
         prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(LoginActivity.this, Contributions.class));
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
         finish();
     }
 
