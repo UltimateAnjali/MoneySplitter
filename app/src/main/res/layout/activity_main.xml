@@ -4,12 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.proj.balance.money.MainActivity">
+    tools:context="com.proj.balance.money.MainActivity"
+    android:background="@color/backgroundColor">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:titleTextColor="@android:color/white"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar" />
 
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/my_toolbar"
         android:layout_above="@+id/bottom_navigation"
         android:animateLayoutChanges="true">
 
@@ -24,4 +36,5 @@
         app:itemIconTint="@color/tintColor"
         app:itemTextColor="@color/tintColor"
         app:menu="@menu/bottom_navigation_items"/>
+
 </RelativeLayout>

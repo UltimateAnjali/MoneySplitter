@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -50,13 +53,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private MyViewPagerAdapter myViewPagerAdapter;
     private MyFonts fontType;
 
-    private GoogleApiClient mGoogleApiClient;
-    private static final int RC_SIGN_IN = 9001;
+    GoogleApiClient mGoogleApiClient;
+    static final int RC_SIGN_IN = 9001;
     private static final String TAG = "+Login Act::::::::+";
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthStateListener;
     public UserData userData;
-    private DatabaseReference mDatabase;
+    DatabaseReference mDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,10 +142,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthStateListener);
-        // Check if user is signed in (non-null) and update UI accordingly.
-        //FirebaseUser currentUser = mAuth.getCurrentUser();
-        //Toast.makeText(getApplicationContext(),"Logged in as: "+currentUser,Toast.LENGTH_SHORT).show();
-        //updateUI(currentUser);
     }
 
     @Override
@@ -161,16 +161,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
-                // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
-                //Toast.makeText(this,"Success",Toast.LENGTH_LONG).show();
                 firebaseAuthWithGoogle(account);
             } else {
-                // Google Sign In failed, update UI appropriately
-                // [START_EXCLUDE]
-                //updateUI(null);
+                //Snackbar snackbar = Snackbar.make(coord)
                 Toast.makeText(this,"Sign In Failed",Toast.LENGTH_LONG).show();
-                // [END_EXCLUDE]
             }
         }
     }
@@ -201,6 +196,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             userData = new UserData(personName, personGivenName, personFamilyName, personEmail, personId, personPhoto);
                             mDatabase.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userData);
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            //intent.putExtra("GoogleApiClient",mGoogleApiClient);
                             startActivity(intent);
                             finish();
                         }
@@ -211,6 +207,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     private void addBottomDots(int currentPage) {
