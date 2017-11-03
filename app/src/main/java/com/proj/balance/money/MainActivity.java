@@ -19,6 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -101,9 +102,11 @@ public class MainActivity extends AppCompatActivity {
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
+                        FirebaseAuth.getInstance().signOut();
                         Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 });
     }

@@ -16,6 +16,8 @@ public class UserData implements Serializable {
     public static String userEmail;
     public static String userId;
     public static String userPhoto;
+    public static String userContact;
+    public static Boolean dataflag;
 
     public UserData(){
     }
@@ -51,6 +53,11 @@ public class UserData implements Serializable {
         this.userId = userId;
     }
 
+    public void setUserPhoto(String userPhoto) {UserData.userPhoto = userPhoto;}
+
+    public void setUserContact(String userContact) {UserData.userContact = userContact;}
+
+    public void setDataflag(Boolean dataflag) {UserData.dataflag = dataflag;}
 
 
 
@@ -79,7 +86,7 @@ public class UserData implements Serializable {
         return userPhoto;
     }
 
-    public void setUserPhoto(String userPhoto) {
-        UserData.userPhoto = userPhoto;
-    }
+    public String getUserContact() {return userContact;}
+
+    public Boolean getDataflag() {return dataflag;}
 }
