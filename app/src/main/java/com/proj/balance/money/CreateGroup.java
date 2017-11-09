@@ -28,23 +28,31 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import static android.Manifest.*;
 
-public class CreateGroup extends AppCompatActivity implements View.OnClickListener{
+public class CreateGroup extends AppCompatActivity{
 
     private AutoCompleteTextView mMemberName;
-    private ListView memberList;
+    //private ListView memberList;
     private Button selectBtn;
     private TextInputLayout til;
     private EditText grpNmEdit;
     public static int PERMISSION_REQUEST_CONTACT = 0;
-    private static ArrayList<String> moji = new ArrayList<String>();
+    //private static ArrayList<String> moji = new ArrayList<String>();
     private CoordinatorLayout coordinatorLayout;
+    private GridView gridView;
     public CharSequence options[] = new CharSequence[]{"Apartment","Trip","Party","Social Gathering"};
     public GroupData grpData;
+    public String groupName, groupType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +68,22 @@ public class CreateGroup extends AppCompatActivity implements View.OnClickListen
 
         til = (TextInputLayout)findViewById(R.id.grpNameLay);
         grpNmEdit = (EditText)findViewById(R.id.grpNameEdit);
-        selectBtn = (Button)findViewById(R.id.select_grp_type);
-        selectBtn.setOnClickListener(this);
+        //selectBtn = (Button)findViewById(R.id.select_grp_type);
+        gridView = (GridView) findViewById(R.id.mygrid);
 
-        checkContactPermission();
+        gridView.setAdapter(new GridAdapter(this));
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                groupType = adapterView.getItemAtPosition(i).toString();
+                //Toast.makeText(getApplicationContext(),"selected: "+adapterView.getItemAtPosition(i).toString(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        //selectBtn.setOnClickListener(this);
+
+        //checkContactPermission();
     }
 
     @Override
@@ -75,23 +95,36 @@ public class CreateGroup extends AppCompatActivity implements View.OnClickListen
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        String groupName = grpNmEdit.getText().toString();
-        String groupType = selectBtn.getText().toString();
-        int numberOfMembers = moji.size();
+        groupName = grpNmEdit.getText().toString();
+        //String groupType = selectBtn.getText().toString();
+        //int numberOfMembers = moji.size();
+        try{
 
-        grpData.setGrpName(groupName);
-        grpData.setGrpAdmin(UserData.userFamilyName);
-        grpData.setGrpType(groupType);
-        grpData.setMembers(numberOfMembers);
-        grpData.setMemberNames(moji);
+            DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference myRef = dbref.child("moneySplit").child("groups").push();
 
-        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Group Created",Snackbar.LENGTH_LONG);
-        snackbar.show();
-        //Toast.makeText(getApplicationContext(),"Saved",Toast.LENGTH_LONG).show();
+            grpData.setGrpKey(dbref.getKey());
+            grpData.setGrpName(groupName);
+            grpData.setGrpAdmin(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            grpData.setGrpType(groupType);
+
+            myRef.setValue(grpData);
+            Snackbar snackbar = Snackbar.make(coordinatorLayout,"Group Created",Snackbar.LENGTH_LONG);
+            snackbar.show();
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"An error occured",Toast.LENGTH_LONG).show();
+        }
+
+        //grpData.setMembers(numberOfMembers);
+        //grpData.setMemberNames(moji);
+
+
+        //Toast.makeText(getApplicationContext(),"Lel: "+grpData.getGrpName(),Toast.LENGTH_LONG).show();
         return true;
     }
 
-    public void checkContactPermission(){
+   /* public void checkContactPermission(){
         if(ActivityCompat.checkSelfPermission(this, permission.READ_CONTACTS)!=PackageManager.PERMISSION_GRANTED){
             requestContactPermission();
         }
@@ -168,7 +201,7 @@ public class CreateGroup extends AppCompatActivity implements View.OnClickListen
                 Toast.makeText(getApplicationContext(),"Selected: "+options[i],Toast.LENGTH_SHORT).show();
             }
         });
-        builder.show();
-    }
+        builder.show();*/
+
 }
 

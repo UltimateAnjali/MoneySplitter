@@ -27,7 +27,8 @@ public class SplashActivity extends Activity {
 
         if(FirebaseAuth.getInstance().getCurrentUser()!=null && FirebaseAuth.getInstance().getCurrentUser().getUid()!=null){
             DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference readRef = dbref.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            DatabaseReference readRef = dbref.child("moneySplit").child("users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
             readRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -56,7 +57,16 @@ public class SplashActivity extends Activity {
                         }
 
                     }else{
+                        FirebaseAuth.getInstance().signOut();
                         Log.d(TAG,"User doesn't exist");
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent mainIntent = new Intent(SplashActivity.this,LoginActivity.class);
+                                SplashActivity.this.startActivity(mainIntent);
+                                SplashActivity.this.finish();
+                            }
+                        },SPLASH_DISPLAY_LENGTH);
                     }
 
                 }
@@ -68,16 +78,6 @@ public class SplashActivity extends Activity {
             });
         }
         else {
-            FirebaseAuth.getInstance().signOut();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent mainIntent = new Intent(SplashActivity.this,LoginActivity.class);
-                    SplashActivity.this.startActivity(mainIntent);
-                    SplashActivity.this.finish();
-                }
-            },SPLASH_DISPLAY_LENGTH);
-
         }
     }
 }

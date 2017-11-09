@@ -11,12 +11,12 @@ public class GroupData {
     public String grpName;
     public String grpType;
     public String grpAdmin;
-    public int members;
-    public List<String> memberNames;
+    public String grpKey;
 
     public GroupData(){
     }
 
+    //Setters
     public void setGrpName(String grpName) {
         this.grpName = grpName;
     }
@@ -29,14 +29,9 @@ public class GroupData {
         this.grpAdmin = grpAdmin;
     }
 
-    public void setMembers(int members) {
-        this.members = members;
-    }
+    public void setGrpKey(String grpKey) { this.grpKey = grpKey; }
 
-    public void setMemberNames(List<String> memberNames) {
-        this.memberNames = memberNames;
-    }
-
+    //Getters
     public String getGrpName() {
         return grpName;
     }
@@ -49,11 +44,6 @@ public class GroupData {
         return grpAdmin;
     }
 
-    public int getMembers() {
-        return members;
-    }
+    public String getGrpKey() { return grpKey; }
 
-    public List<String> getMemberNames() {
-        return memberNames;
-    }
 }

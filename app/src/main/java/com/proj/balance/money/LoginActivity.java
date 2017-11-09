@@ -147,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         if(FirebaseAuth.getInstance().getCurrentUser()!=null && FirebaseAuth.getInstance().getCurrentUser().getUid()!=null){
             DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference readRef = dbref.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            DatabaseReference readRef = dbref.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
             readRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -241,8 +241,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             userData = new UserData(personName, personGivenName, personFamilyName, personEmail, personId, personPhoto);
                             userData.setUserContact("");
                             userData.setDataflag(false);
-                            mDatabase.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userData);
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            mDatabase.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userData);
+                            Intent intent = new Intent(getApplicationContext(), ContactInfo.class);
                             //intent.putExtra("GoogleApiClient",mGoogleApiClient);
                             startActivity(intent);
                             finish();
