@@ -80,7 +80,6 @@ public class CreateGroup extends AppCompatActivity{
             }
         });
 
-
         //selectBtn.setOnClickListener(this);
 
         //checkContactPermission();
