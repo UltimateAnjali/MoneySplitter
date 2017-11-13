@@ -236,12 +236,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             String personEmail = acct.getEmail();
                             String personId = acct.getId();
                             String personPhoto = String.valueOf(acct.getPhotoUrl());
-                            //Log.d(TAG,"------------->>>>>>"+uid);
-                          //  userData.setUserEmail("lel@gmail.com");
-                            userData = new UserData(personName, personGivenName, personFamilyName, personEmail, personId, personPhoto);
+                            userData = new UserData(personName,
+                                                    personGivenName,
+                                                    personFamilyName,
+                                                    personEmail,
+                                                    personId,
+                                                    personPhoto);
                             userData.setUserContact("");
                             userData.setDataflag(false);
-                            mDatabase.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userData);
+                            userData.setFirebaseUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            mDatabase.child("moneySplit")
+                                    .child("users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(userData);
                             Intent intent = new Intent(getApplicationContext(), ContactInfo.class);
                             //intent.putExtra("GoogleApiClient",mGoogleApiClient);
                             startActivity(intent);

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +25,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+//        FirebaseAuth.getInstance().signOut();
 
         if(FirebaseAuth.getInstance().getCurrentUser()!=null && FirebaseAuth.getInstance().getCurrentUser().getUid()!=null){
             DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
@@ -36,6 +38,7 @@ public class SplashActivity extends Activity {
                     {
                         UserData userData = dataSnapshot.getValue(UserData.class);
                         if(userData.dataflag.equals(false)){
+                            Toast.makeText(getApplicationContext(),"Lel 1",Toast.LENGTH_LONG).show();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -44,12 +47,14 @@ public class SplashActivity extends Activity {
                                     SplashActivity.this.finish();
                                 }
                             },SPLASH_DISPLAY_LENGTH);
+
                         }
                         else {
+                            Toast.makeText(getApplicationContext(),"Lel 2",Toast.LENGTH_LONG).show();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent mainIntent = new Intent(SplashActivity.this,AddMembers.class);
+                                    Intent mainIntent = new Intent(SplashActivity.this,MainActivity.class);
                                     SplashActivity.this.startActivity(mainIntent);
                                     SplashActivity.this.finish();
                                 }
@@ -57,8 +62,9 @@ public class SplashActivity extends Activity {
                         }
 
                     }else{
-                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(getApplicationContext(),"Lel 3",Toast.LENGTH_LONG).show();
                         Log.d(TAG,"User doesn't exist");
+                        FirebaseAuth.getInstance().signOut();
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -67,17 +73,29 @@ public class SplashActivity extends Activity {
                                 SplashActivity.this.finish();
                             }
                         },SPLASH_DISPLAY_LENGTH);
+
                     }
 
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
+                    Log.e(TAG,"Error occured");
+                    Toast.makeText(getApplicationContext(),"Error occured",Toast.LENGTH_LONG).show();
                 }
             });
         }
         else {
+            Toast.makeText(getApplicationContext(),"Lel 4",Toast.LENGTH_LONG).show();
+            Log.d(TAG,"User doesn't exist");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent mainIntent = new Intent(SplashActivity.this,LoginActivity.class);
+                    SplashActivity.this.startActivity(mainIntent);
+                    SplashActivity.this.finish();
+                }
+            },SPLASH_DISPLAY_LENGTH);
         }
     }
 }

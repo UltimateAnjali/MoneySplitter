@@ -3,6 +3,7 @@ package com.proj.balance.money;
 import android.net.Uri;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * Created by anjali desai on 08-10-2017.
@@ -16,8 +17,11 @@ public class UserData implements Serializable {
     public static String userEmail;
     public static String userId;
     public static String userPhoto;
+    public static String firebaseUid;
+    public static HashMap<String,Boolean> groups = new HashMap<>();
     public static String userContact;
     public static Boolean dataflag;
+
 
     public UserData(){
     }
@@ -55,10 +59,13 @@ public class UserData implements Serializable {
 
     public void setUserPhoto(String userPhoto) {UserData.userPhoto = userPhoto;}
 
+    public void setFirebaseUid(String firebaseUid) {UserData.firebaseUid = firebaseUid;}
+
+    public void setGroups(HashMap<String, Boolean> groups) {UserData.groups = groups;}
+
     public void setUserContact(String userContact) {UserData.userContact = userContact;}
 
     public void setDataflag(Boolean dataflag) {UserData.dataflag = dataflag;}
-
 
 
     //Getters
@@ -89,4 +96,8 @@ public class UserData implements Serializable {
     public String getUserContact() {return userContact;}
 
     public Boolean getDataflag() {return dataflag;}
+
+    public String getFirebaseUid() {return firebaseUid;}
+
+    public HashMap<String, Boolean> getGroups() {return groups;}
 }

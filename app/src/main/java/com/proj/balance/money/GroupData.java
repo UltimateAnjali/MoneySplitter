@@ -1,5 +1,6 @@
 package com.proj.balance.money;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,6 +13,7 @@ public class GroupData {
     public String grpType;
     public String grpAdmin;
     public String grpKey;
+    HashMap<String,Boolean> members = new HashMap<>();
 
     public GroupData(){
     }
@@ -31,6 +33,10 @@ public class GroupData {
 
     public void setGrpKey(String grpKey) { this.grpKey = grpKey; }
 
+    public void setMembers(HashMap<String, Boolean> members) {
+        this.members = members;
+    }
+
     //Getters
     public String getGrpName() {
         return grpName;
@@ -45,5 +51,10 @@ public class GroupData {
     }
 
     public String getGrpKey() { return grpKey; }
+
+    public HashMap<String, Boolean> getMembers() {
+        return members;
+    }
+
 
 }

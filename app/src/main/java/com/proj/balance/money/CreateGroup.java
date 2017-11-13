@@ -1,6 +1,7 @@
 package com.proj.balance.money;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.DialogInterface;
@@ -33,9 +34,13 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import static android.Manifest.*;
 
@@ -53,6 +58,7 @@ public class CreateGroup extends AppCompatActivity{
     public CharSequence options[] = new CharSequence[]{"Apartment","Trip","Party","Social Gathering"};
     public GroupData grpData;
     public String groupName, groupType;
+    private static final String TAG = "--Create Group--";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,24 +108,42 @@ public class CreateGroup extends AppCompatActivity{
             DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
             DatabaseReference myRef = dbref.child("moneySplit").child("groups").push();
 
-            grpData.setGrpKey(dbref.getKey());
+            grpData.setGrpKey(myRef.getKey());
             grpData.setGrpName(groupName);
-            grpData.setGrpAdmin(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            grpData.setGrpAdmin(UserData.firebaseUid);
             grpData.setGrpType(groupType);
 
-            myRef.setValue(grpData);
-            Snackbar snackbar = Snackbar.make(coordinatorLayout,"Group Created",Snackbar.LENGTH_LONG);
+            HashMap<String,Boolean> members = new HashMap<>();
+            members.put(UserData.firebaseUid,true);
+            grpData.setMembers(members);
+            myRef.setValue(grpData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+
+                }
+            });
+
+            /*HashMap<String,Boolean> userGroups = new HashMap<>();
+            userGroups.put(grpData.getGrpKey(),true);
+            UserData.groups = userGroups;*/
+
+            DatabaseReference myref2 = dbref.child("moneySplit").child("users").child(UserData.firebaseUid);
+            myref2.child("groups").child(grpData.getGrpKey()).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+
+                }
+            });
+            //grpData.setGrpAdmin(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            //myref2.setValue(grpData.getGrpAdmin());
+
+
+            Snackbar snackbar = Snackbar.make(coordinatorLayout,"Group Created"+grpData.getGrpKey(),Snackbar.LENGTH_LONG);
             snackbar.show();
 
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"An error occured",Toast.LENGTH_LONG).show();
         }
-
-        //grpData.setMembers(numberOfMembers);
-        //grpData.setMemberNames(moji);
-
-
-        //Toast.makeText(getApplicationContext(),"Lel: "+grpData.getGrpName(),Toast.LENGTH_LONG).show();
         return true;
     }
 
