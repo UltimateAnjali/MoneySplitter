@@ -39,6 +39,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
@@ -124,37 +125,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //Configure database reference
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        /*mAuthStateListener = new FirebaseAuth.AuthStateListener(){
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user!=null){
-                    /*SharedPreferences sharedPreferences = getSharedPreferences("myRef",Context.MODE_PRIVATE);
-                    String googleId = sharedPreferences.getString("googleId","none");
-                    if(!googleId.equals("none")){
-                        AddUser(googleId,getApplicationContext());
-                    }
-                    else {
-                        FirebaseAuth.getInstance().signOut();
-                    }
-                    Log.d(TAG,"onAuthStateChanged:signed_in:"+user.getUid());
-                }
-                else {
-                    Log.d(TAG,"onAuthStateChanged:signed_out");
-                }
-            }
-        };*/
-
         if(FirebaseAuth.getInstance().getCurrentUser()!=null && FirebaseAuth.getInstance().getCurrentUser().getUid()!=null){
             DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference readRef = dbref.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            DatabaseReference readRef = dbref.child("moneySplit")
+                                            .child("users")
+                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
             readRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists())
                     {
                         UserData userData = dataSnapshot.getValue(UserData.class);
-                        if(userData.dataflag.equals(false)){
+                        if(userData.getDataflag() == null){
                             Intent intent = new Intent(getApplicationContext(),ContactInfo.class);
                             startActivity(intent);
                             finish();
@@ -173,7 +155,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
+                    Log.e(TAG,"Error occured");
+                    Toast.makeText(getApplicationContext(),"Error occured",Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -195,8 +178,45 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null && FirebaseAuth.getInstance().getCurrentUser().getUid()!=null){
+            DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference readRef = dbref.child("moneySplit")
+                    .child("users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            readRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists())
+                    {
+                        UserData userData = dataSnapshot.getValue(UserData.class);
+                        if(userData.getDataflag() == null){
+                            Intent intent = new Intent(getApplicationContext(),ContactInfo.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else {
+                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+
+                    }else{
+                        Log.d(TAG,"User doesn't exist");
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e(TAG,"Error occured");
+                    Toast.makeText(getApplicationContext(),"Error occured",Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        else {
+            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        }
+
     }
 
     @Override
@@ -230,29 +250,46 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         }
                         else {
                             Toast.makeText(LoginActivity.this, "Authentication Success", Toast.LENGTH_LONG).show();
-                            String personName = acct.getDisplayName();
-                            String personGivenName = acct.getGivenName();
-                            String personFamilyName = acct.getFamilyName();
-                            String personEmail = acct.getEmail();
-                            String personId = acct.getId();
-                            String personPhoto = String.valueOf(acct.getPhotoUrl());
-                            userData = new UserData(personName,
-                                                    personGivenName,
-                                                    personFamilyName,
-                                                    personEmail,
-                                                    personId,
-                                                    personPhoto);
-                            userData.setUserContact("");
-                            userData.setDataflag(false);
+                            userData = new UserData(acct.getDisplayName(),
+                                                    acct.getGivenName(),
+                                                    acct.getFamilyName(),
+                                                    acct.getEmail(),
+                                                    acct.getId(),
+                                                    String.valueOf(acct.getPhotoUrl()));
+                            //userData.setUserContact("");
+                            //userData.setDataflag(false);
                             userData.setFirebaseUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            //userData = FirebaseAuth.getInstance().getCurrentUser().getUid().getClass();
                             mDatabase.child("moneySplit")
                                     .child("users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(userData);
-                            Intent intent = new Intent(getApplicationContext(), ContactInfo.class);
-                            //intent.putExtra("GoogleApiClient",mGoogleApiClient);
-                            startActivity(intent);
-                            finish();
+
+                            Query query= mDatabase.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                            query.orderByChild("dataflag").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(!dataSnapshot.exists())
+                                    {
+                                        Toast.makeText(getApplicationContext(),"Does not exist",Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(getApplicationContext(),ContactInfo.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(),"Exist",Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+                                }
+                            });
                         }
                     }
                 });
