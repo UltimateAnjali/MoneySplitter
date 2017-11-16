@@ -178,45 +178,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void signIn() {
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null && FirebaseAuth.getInstance().getCurrentUser().getUid()!=null){
-            DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference readRef = dbref.child("moneySplit")
-                    .child("users")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            readRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists())
-                    {
-                        UserData userData = dataSnapshot.getValue(UserData.class);
-                        if(userData.getDataflag() == null){
-                            Intent intent = new Intent(getApplicationContext(),ContactInfo.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                        else {
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-
-                    }else{
-                        Log.d(TAG,"User doesn't exist");
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.e(TAG,"Error occured");
-                    Toast.makeText(getApplicationContext(),"Error occured",Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-        else {
-            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-            startActivityForResult(signInIntent, RC_SIGN_IN);
-        }
-
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
@@ -256,40 +219,38 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                                     acct.getEmail(),
                                                     acct.getId(),
                                                     String.valueOf(acct.getPhotoUrl()));
-                            //userData.setUserContact("");
-                            //userData.setDataflag(false);
                             userData.setFirebaseUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                            //userData = FirebaseAuth.getInstance().getCurrentUser().getUid().getClass();
                             mDatabase.child("moneySplit")
                                     .child("users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(userData);
 
-                            Query query= mDatabase.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            mDatabase.child("moneySplit")
+                                    .child("users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            UserData userData = dataSnapshot.getValue(UserData.class);
+                                            if(userData.getDataflag() == null){
+                                                Toast.makeText(getApplicationContext(),"Flag null",Toast.LENGTH_LONG).show();
+                                                Intent mainIntent = new Intent(getApplicationContext(),ContactInfo.class);
+                                                LoginActivity.this.startActivity(mainIntent);
+                                                LoginActivity.this.finish();
+                                            }
+                                            else {
+                                                Toast.makeText(getApplicationContext(),"Flag not null",Toast.LENGTH_LONG).show();
+                                                Intent mainIntent = new Intent(getApplicationContext(),MainActivity.class);
+                                                LoginActivity.this.startActivity(mainIntent);
+                                                LoginActivity.this.finish();
+                                            }
+                                        }
 
-                            query.orderByChild("dataflag").addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if(!dataSnapshot.exists())
-                                    {
-                                        Toast.makeText(getApplicationContext(),"Does not exist",Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getApplicationContext(),ContactInfo.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                    else{
-                                        Toast.makeText(getApplicationContext(),"Exist",Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                    Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
-                                }
-                            });
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            Toast.makeText(getApplicationContext(),"Server Error",Toast.LENGTH_LONG).show();
+                                        }
+                                    });
                         }
                     }
                 });
