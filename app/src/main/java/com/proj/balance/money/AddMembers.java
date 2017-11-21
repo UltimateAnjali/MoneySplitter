@@ -232,11 +232,8 @@ public class AddMembers extends AppCompatActivity {
                             data = new AddMembersData(userData.getUserName(),userData.getUserContact());
                             membersDataList.add(data);
                             membersAdapter.notifyDataSetChanged();
-                            if(loopCount<size-1)
+                           if(LoopHandling())
                             {
-                                loopCount++;
-                                CheckExist();
-                            }else{
                                 break;
                             }
                             Toast.makeText(getApplicationContext(),"aai gayu"+membersDataList.get(0).getPersonName(),Toast.LENGTH_LONG).show();
@@ -247,13 +244,7 @@ public class AddMembers extends AppCompatActivity {
                 }
                 else {
 
-                    if(loopCount<size-1)
-                    {
-                        loopCount++;
-                        CheckExist();
-                    }else{
-
-                    }
+                   LoopHandling();
 //                    data = new AddMembersData("Anjali","xxx");
 //                    membersDataList.add(data);
                 }
@@ -264,6 +255,18 @@ public class AddMembers extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    private boolean LoopHandling() {
+        if(loopCount<size-1)
+        {
+            loopCount++;
+            CheckExist();
+            return false;
+        }else{
+            return true;
+        }
 
     }
 
