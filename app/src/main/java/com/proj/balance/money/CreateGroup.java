@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -119,27 +120,20 @@ public class CreateGroup extends AppCompatActivity{
             myRef.setValue(grpData).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-
+                    Snackbar snackbar = Snackbar.make(coordinatorLayout,"Group Created",Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             });
-
-            /*HashMap<String,Boolean> userGroups = new HashMap<>();
-            userGroups.put(grpData.getGrpKey(),true);
-            UserData.groups = userGroups;*/
 
             DatabaseReference myref2 = dbref.child("moneySplit").child("users").child(UserData.firebaseUid);
             myref2.child("groups").child(grpData.getGrpKey()).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-
+                    Intent intent = new Intent(getApplicationContext(),AddMembers.class);
+                    startActivity(intent);
+                    finish();
                 }
             });
-            //grpData.setGrpAdmin(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            //myref2.setValue(grpData.getGrpAdmin());
-
-
-            Snackbar snackbar = Snackbar.make(coordinatorLayout,"Group Created"+grpData.getGrpKey(),Snackbar.LENGTH_LONG);
-            snackbar.show();
 
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"An error occured",Toast.LENGTH_LONG).show();

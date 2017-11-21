@@ -7,15 +7,16 @@ package com.proj.balance.money;
 public class AddMembersData {
 
     String personName;
+    String contactNum;
     String imageUrl;
 
     public AddMembersData(){
 
     }
 
-    public AddMembersData(String pName, String iUrl){
+    public AddMembersData(String pName, String contact){
         this.personName = pName;
-        this.imageUrl = iUrl;
+        this.contactNum = contact;
     }
     public String getPersonName() {
         return personName;
@@ -32,4 +33,8 @@ public class AddMembersData {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public String getContactNum() {return contactNum;}
+
+    public void setContactNum(String contactNum) {this.contactNum = contactNum;}
 }

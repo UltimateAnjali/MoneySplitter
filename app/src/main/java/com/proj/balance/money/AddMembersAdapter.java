@@ -20,23 +20,24 @@ import java.util.List;
 public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<AddMembersData> albumList;
+    private List<AddMembersData> memberList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView personName;
+        public TextView personName, contact;
         public ImageView personImage;
 
         public MyViewHolder(View view) {
             super(view);
             personName = (TextView)view.findViewById(R.id.person_name);
+            contact = (TextView)view.findViewById(R.id.contact_num);
             personImage = (ImageView)view.findViewById(R.id.person_photo);
         }
     }
 
 
-    public AddMembersAdapter(Context mContext, List<AddMembersData> albumList) {
+    public AddMembersAdapter(Context mContext, List<AddMembersData> members) {
         this.mContext = mContext;
-        this.albumList = albumList;
+        this.memberList = members;
     }
 
     @Override
@@ -49,12 +50,13 @@ public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        AddMembersData members = albumList.get(position);
-        holder.personName.setText(members.getPersonName());
+        AddMembersData membersData = memberList.get(position);
+        holder.personName.setText(membersData.getPersonName());
+        holder.contact.setText(membersData.getContactNum());
 
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(Uri.parse(members.getImageUrl())).into(holder.personImage);
+        //Glide.with(mContext).load(Uri.parse(membersData.getImageUrl())).into(holder.personImage);
 
         /*holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +103,7 @@ public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.My
 
     @Override
     public int getItemCount() {
-        return albumList.size();
+        return memberList.size();
     }
 }
 
