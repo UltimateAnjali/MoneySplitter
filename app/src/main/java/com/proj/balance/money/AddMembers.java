@@ -40,11 +40,14 @@ public class AddMembers extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AddMembersAdapter membersAdapter;
     private List<AddMembersData> membersDataList;
+    private List<AddMembersData> checkDataList = new ArrayList<>();
     private static final String TAG = "--Add Members--";
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     AddMembersData data;
     String temp;
     int xy;
+    int size;
+    int loopCount=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +125,7 @@ public class AddMembers extends AppCompatActivity {
                         String displayNumber = cursor.getString(indexOfDisplayNumber);
 
                         data = new AddMembersData(displayName,displayNumber);
-                        membersDataList.add(data);
+                        checkDataList.add(data);
                         /*DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
                         Query query = dbref.child("moneySplit").child("users")
                                 .orderByChild("userContact").equalTo(displayNumber);
@@ -159,6 +162,12 @@ public class AddMembers extends AppCompatActivity {
                         //don't do anything with this contact because we've already found this number
                     }
                 }
+                size = checkDataList.size();
+                if(size>=1) {
+                    CheckExist();
+                    System.out.println("------------>size>=1");
+                }
+
             } finally {
                 cursor.close();
             }
@@ -204,6 +213,58 @@ public class AddMembers extends AppCompatActivity {
         membersDataList.add(a);*/
 
         membersAdapter.notifyDataSetChanged();
+    }
+
+    private void CheckExist() {
+
+
+        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
+        Query query = dbref.child("moneySplit").child("users")
+                .orderByChild("userContact").equalTo(checkDataList.get(loopCount).getContactNum());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot contact:dataSnapshot.getChildren()){
+
+                        UserData userData = contact.getValue(UserData.class);
+
+                            data = new AddMembersData(userData.getUserName(),userData.getUserContact());
+                            membersDataList.add(data);
+                            membersAdapter.notifyDataSetChanged();
+                            if(loopCount<size-1)
+                            {
+                                loopCount++;
+                                CheckExist();
+                            }else{
+                                break;
+                            }
+                            Toast.makeText(getApplicationContext(),"aai gayu"+membersDataList.get(0).getPersonName(),Toast.LENGTH_LONG).show();
+                        System.out.println("------------>membersDataList "+membersDataList.get(0).getPersonName());
+                            //Log.i(TAG,contact.toString());
+
+                    }
+                }
+                else {
+
+                    if(loopCount<size-1)
+                    {
+                        loopCount++;
+                        CheckExist();
+                    }else{
+
+                    }
+//                    data = new AddMembersData("Anjali","xxx");
+//                    membersDataList.add(data);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     /*public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
