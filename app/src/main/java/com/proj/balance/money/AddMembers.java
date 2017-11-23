@@ -123,43 +123,12 @@ public class AddMembers extends AppCompatActivity {
                     if (normalizedNumbersAlreadyFound.add(normalizedNumber)) {
                         String displayName = cursor.getString(indexOfDisplayName);
                         String displayNumber = cursor.getString(indexOfDisplayNumber);
+                        String newNumber = updatedNumber(displayNumber);
 
-                        data = new AddMembersData(displayName,displayNumber);
+                        data = new AddMembersData(displayName,newNumber);
                         checkDataList.add(data);
-                        /*DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
-                        Query query = dbref.child("moneySplit").child("users")
-                                .orderByChild("userContact").equalTo(displayNumber);
-                        query.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if(dataSnapshot.exists()){
-                                    for(DataSnapshot contact:dataSnapshot.getChildren()){
-                                        if(contact.getValue(UserData.class).getUserContact().equals(displayNumber)){
-                                            data = new AddMembersData(displayName,displayNumber);
-                                            membersDataList.add(data);
-                                            Toast.makeText(getApplicationContext(),"aai gayu",Toast.LENGTH_LONG).show();
-                                            //Log.i(TAG,contact.toString());
-                                        }
-                                    }
-                                }
-                                else {
-                                    data = new AddMembersData("Anjali","xxx");
-                                    membersDataList.add(data);
-                                }
-                            }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });*/
-
-                        //Log.i(TAG, "Name: " + displayName);
-                        //Log.i(TAG, "Phone Number: " + displayNumber);
-
-                        //haven't seen this number yet: do something with this contact!
                     } else {
-                        //don't do anything with this contact because we've already found this number
                     }
                 }
                 size = checkDataList.size();
@@ -172,51 +141,35 @@ public class AddMembers extends AppCompatActivity {
                 cursor.close();
             }
         }
-        /*ContentResolver cr = getContentResolver();
-        Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
-
-        if((cursor!=null ? cursor.getCount() : 0) > 0){
-            while (cursor != null && cursor.moveToNext()){
-                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-
-                if(cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))>0){
-                    Cursor pCursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{id},
-                            null);
-                    while (pCursor.moveToNext()){
-                        String phoneNum = pCursor.getString(pCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        int cntlength = phoneNum.length();
-                        if(cntlength > 10){
-                            int lel = cntlength-10;
-                            temp = phoneNum.substring(lel);
-                        }
-                        Log.i(TAG, "Name: " + name);
-                        Log.i(TAG, "Phone Number: " + phoneNum);
-                        Log.i(TAG, "Temp: "+temp);
-                        data = new AddMembersData(name,phoneNum);
-                        membersDataList.add(data);
-                    }
-                    pCursor.close();
-                }
-            }
-        }
-        /*data = new AddMembersData("Anjali","0123456789");
-        membersDataList.add(a);
-        a = new AddMembersData("Anjali","0123456789");
-        membersDataList.add(a);
-        a = new AddMembersData("Anjali","0123456789");
-        membersDataList.add(a);
-        a = new AddMembersData("Anjali","0123456789");
-        membersDataList.add(a);*/
-
         membersAdapter.notifyDataSetChanged();
     }
 
-    private void CheckExist() {
+    private String updatedNumber(String contact) {
+        String cont = contact.replaceAll("\\D+","");
+        if(cont.length()>10){
+            cont = cont.substring(cont.length()-10);
+        }
+        temp = "(";
+        for(int i = 0; i < cont.length(); i++){
+            if (i==3){
+                temp = temp + cont.substring(0,3)+") ";
+            }
+            if(i==6){
+                temp = temp + cont.substring(3,6) + "-" + cont.substring(6);
+            }
+        }
+        return temp;
+    }
 
+    /*private String getNameForContact(String con){
+        String nmae;
+        for(int i=0;i<checkDataList.size();i++){
+            nmae = checkDataList.get(i).getPersonName();
+        }
+        return nmae;
+    }*/
+
+    private void CheckExist() {
 
         DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
         Query query = dbref.child("moneySplit").child("users")
@@ -228,22 +181,22 @@ public class AddMembers extends AppCompatActivity {
                     for(DataSnapshot contact:dataSnapshot.getChildren()){
 
                         UserData userData = contact.getValue(UserData.class);
+                        //method number pass -namereturn
+                        //String nm = getNameForContact(userData.getUserContact());
 
-                            data = new AddMembersData(userData.getUserName(),userData.getUserContact());
-                            membersDataList.add(data);
-                            membersAdapter.notifyDataSetChanged();
-                           if(LoopHandling())
-                            {
-                                break;
-                            }
-                            Toast.makeText(getApplicationContext(),"aai gayu"+membersDataList.get(0).getPersonName(),Toast.LENGTH_LONG).show();
+                        data = new AddMembersData(checkDataList.get(loopCount).getPersonName(),userData.getUserContact());
+                        membersDataList.add(data);
+                        membersAdapter.notifyDataSetChanged();
+                        if(LoopHandling())
+                        {
+                            break;
+                        }
+                        Toast.makeText(getApplicationContext(),"aai gayu"+membersDataList.get(0).getPersonName(),Toast.LENGTH_LONG).show();
                         System.out.println("------------>membersDataList "+membersDataList.get(0).getPersonName());
                             //Log.i(TAG,contact.toString());
-
                     }
                 }
                 else {
-
                    LoopHandling();
 //                    data = new AddMembersData("Anjali","xxx");
 //                    membersDataList.add(data);
@@ -269,49 +222,6 @@ public class AddMembers extends AppCompatActivity {
         }
 
     }
-
-    /*public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
-
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
-
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-
-                if (position < spanCount) { // top edge
-                    outRect.top = spacing;
-                }
-                outRect.bottom = spacing; // item bottom
-            } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-                if (position >= spanCount) {
-                    outRect.top = spacing; // item top
-                }
-            }
-        }
-    }
-
-    /**
-     * Converting dp to pixel
-
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

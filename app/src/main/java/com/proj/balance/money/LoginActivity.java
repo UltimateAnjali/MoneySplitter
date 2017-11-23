@@ -125,11 +125,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //Configure database reference
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        checkSignIn();
+
+        loginBtn.setOnClickListener(this);
+        /*---------------------------------End of Google Sign In Part--------------------------------------*/
+        /*----------------------------------End of OnCreate method-----------------------------------------*/
+    }
+
+    public void checkSignIn(){
         if(FirebaseAuth.getInstance().getCurrentUser()!=null && FirebaseAuth.getInstance().getCurrentUser().getUid()!=null){
             DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
             DatabaseReference readRef = dbref.child("moneySplit")
-                                            .child("users")
-                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    .child("users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
             readRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -160,10 +168,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
             });
         }
-
-        loginBtn.setOnClickListener(this);
-        /*---------------------------------End of Google Sign In Part--------------------------------------*/
-        /*----------------------------------End of OnCreate method-----------------------------------------*/
     }
 
     @Override
@@ -178,6 +182,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void signIn() {
+
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -213,19 +218,27 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         }
                         else {
                             Toast.makeText(LoginActivity.this, "Authentication Success", Toast.LENGTH_LONG).show();
-                            userData = new UserData(acct.getDisplayName(),
-                                                    acct.getGivenName(),
-                                                    acct.getFamilyName(),
-                                                    acct.getEmail(),
-                                                    acct.getId(),
-                                                    String.valueOf(acct.getPhotoUrl()));
-                            userData.setFirebaseUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                            mDatabase.child("moneySplit")
-                                    .child("users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(userData);
+                            if(FirebaseAuth.getInstance().getCurrentUser()!=null && FirebaseAuth.getInstance().getCurrentUser().getUid()!=null){
+                                checkSignIn();
+                            }
+                            else{
+                                FirebaseAuth.getInstance().signOut();
+                                userData = new UserData(acct.getDisplayName(),
+                                        acct.getGivenName(),
+                                        acct.getFamilyName(),
+                                        acct.getEmail(),
+                                        acct.getId(),
+                                        String.valueOf(acct.getPhotoUrl()));
+                                userData.setFirebaseUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                mDatabase.child("moneySplit")
+                                        .child("users")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .setValue(userData);
+                            }
 
-                            mDatabase.child("moneySplit")
+
+
+                           /* mDatabase.child("moneySplit")
                                     .child("users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -250,7 +263,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                         public void onCancelled(DatabaseError databaseError) {
                                             Toast.makeText(getApplicationContext(),"Server Error",Toast.LENGTH_LONG).show();
                                         }
-                                    });
+                                    });*/
                         }
                     }
                 });
