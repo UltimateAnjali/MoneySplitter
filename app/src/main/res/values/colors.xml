@@ -12,4 +12,7 @@
     <color name="loginBtnBackground">#4285F4</color>
     <color name="loginBtnRipple">#42A5F5</color>
     <color name="tintColor">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="trial">#66BB6A</color>
+    <color name="trial2">#2E7D32</color>
 </resources>

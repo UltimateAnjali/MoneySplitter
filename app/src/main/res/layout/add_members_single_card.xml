@@ -17,14 +17,13 @@
 
             <ImageView
                 android:id="@+id/person_photo"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="left"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/friends" />
+                android:layout_marginRight="16dp" />
 
             <LinearLayout
-                android:layout_width="170dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical">
@@ -34,7 +33,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dummy Name"
-                    android:textSize="15sp" />
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/contact_num"
@@ -66,6 +66,7 @@
                     android:gravity="center"
                     android:text="Added"
                     android:textSize="15sp"
+                    android:textColor="@color/activeDot"
                     android:visibility="gone" />
             </FrameLayout>
         </LinearLayout>

@@ -1,6 +1,8 @@
 package com.proj.balance.money;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -53,7 +56,13 @@ public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        AddMembersData membersData = memberList.get(position);
+        final AddMembersData membersData = memberList.get(position);
+
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound(String.valueOf(membersData.getPersonName().charAt(0)), R.color.loginBtnRipple);
+        //ImageView image = (ImageView) findViewById(R.id.image_view);
+        holder.personImage.setImageDrawable(drawable);
+
         holder.personName.setText(membersData.getPersonName());
         holder.contact.setText(membersData.getContactNum());
 
@@ -64,16 +73,18 @@ public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.My
         else {
             holder.addBtn.setVisibility(View.VISIBLE);
             holder.addedText.setVisibility(View.GONE);
+
+            holder.addBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    membersData.setAdded(true);
+                    holder.addBtn.setVisibility(View.GONE);
+                    holder.addedText.setVisibility(View.VISIBLE);
+                }
+            });
         }
 
-        holder.addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                holder.addBtn.setVisibility(View.GONE);
-                holder.addedText.setVisibility(View.VISIBLE);
-            }
-        });
 
     }
 
