@@ -9,14 +9,16 @@ public class AddMembersData {
     String personName;
     String contactNum;
     String imageUrl;
+    Boolean isAdded;
 
     public AddMembersData(){
 
     }
 
-    public AddMembersData(String pName, String contact){
+    public AddMembersData(String pName, String contact, Boolean add){
         this.personName = pName;
         this.contactNum = contact;
+        this.isAdded = add;
     }
     public String getPersonName() {
         return personName;
@@ -37,4 +39,12 @@ public class AddMembersData {
     public String getContactNum() {return contactNum;}
 
     public void setContactNum(String contactNum) {this.contactNum = contactNum;}
+
+    public Boolean getAdded() {
+        return isAdded;
+    }
+
+    public void setAdded(Boolean added) {
+        isAdded = added;
+    }
 }

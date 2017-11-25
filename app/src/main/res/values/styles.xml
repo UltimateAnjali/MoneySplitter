@@ -24,4 +24,10 @@
         <item name="android:background">@drawable/login_round_btn</item>
     </style>
 
+    <style name="addBtn">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/add_btn_text_size</item>
+        <item name="android:background">@drawable/add_round_btn</item>
+    </style>
+
 </resources>

@@ -21,6 +21,7 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -124,18 +125,20 @@ public class AddMembers extends AppCompatActivity {
                         String displayName = cursor.getString(indexOfDisplayName);
                         String displayNumber = cursor.getString(indexOfDisplayNumber);
                         String newNumber = updatedNumber(displayNumber);
+                        Boolean isAdded = false;
 
-                        data = new AddMembersData(displayName,newNumber);
-                        checkDataList.add(data);
+                        data = new AddMembersData(displayName,newNumber,isAdded);
+                        membersDataList.add(data);
+                        //checkDataList.add(data);
 
                     } else {
                     }
                 }
-                size = checkDataList.size();
+                /*size = checkDataList.size();
                 if(size>=1) {
                     CheckExist();
                     System.out.println("------------>size>=1");
-                }
+                }*/
 
             } finally {
                 cursor.close();
@@ -161,15 +164,7 @@ public class AddMembers extends AppCompatActivity {
         return temp;
     }
 
-    /*private String getNameForContact(String con){
-        String nmae;
-        for(int i=0;i<checkDataList.size();i++){
-            nmae = checkDataList.get(i).getPersonName();
-        }
-        return nmae;
-    }*/
-
-    private void CheckExist() {
+    /*private void CheckExist() {
 
         DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
         Query query = dbref.child("moneySplit").child("users")
@@ -181,8 +176,6 @@ public class AddMembers extends AppCompatActivity {
                     for(DataSnapshot contact:dataSnapshot.getChildren()){
 
                         UserData userData = contact.getValue(UserData.class);
-                        //method number pass -namereturn
-                        //String nm = getNameForContact(userData.getUserContact());
 
                         data = new AddMembersData(checkDataList.get(loopCount).getPersonName(),userData.getUserContact());
                         membersDataList.add(data);
@@ -193,7 +186,6 @@ public class AddMembers extends AppCompatActivity {
                         }
                         Toast.makeText(getApplicationContext(),"aai gayu"+membersDataList.get(0).getPersonName(),Toast.LENGTH_LONG).show();
                         System.out.println("------------>membersDataList "+membersDataList.get(0).getPersonName());
-                            //Log.i(TAG,contact.toString());
                     }
                 }
                 else {
@@ -221,7 +213,7 @@ public class AddMembers extends AppCompatActivity {
             return true;
         }
 
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

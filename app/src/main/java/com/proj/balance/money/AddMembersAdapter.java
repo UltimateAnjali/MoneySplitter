@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,17 +24,19 @@ public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.My
     private List<AddMembersData> memberList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView personName, contact;
+        public TextView personName, contact, addedText;
         public ImageView personImage;
+        public Button addBtn;
 
         public MyViewHolder(View view) {
             super(view);
             personName = (TextView)view.findViewById(R.id.person_name);
             contact = (TextView)view.findViewById(R.id.contact_num);
             personImage = (ImageView)view.findViewById(R.id.person_photo);
+            addBtn = (Button)view.findViewById(R.id.add_btn);
+            addedText = (TextView)view.findViewById(R.id.addedTv);
         }
     }
-
 
     public AddMembersAdapter(Context mContext, List<AddMembersData> members) {
         this.mContext = mContext;
@@ -54,52 +57,25 @@ public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.My
         holder.personName.setText(membersData.getPersonName());
         holder.contact.setText(membersData.getContactNum());
 
+        if(membersData.getAdded()){
+            holder.addBtn.setVisibility(View.GONE);
+            holder.addedText.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.addBtn.setVisibility(View.VISIBLE);
+            holder.addedText.setVisibility(View.GONE);
+        }
 
-        // loading album cover using Glide library
-        //Glide.with(mContext).load(Uri.parse(membersData.getImageUrl())).into(holder.personImage);
-
-        /*holder.overflow.setOnClickListener(new View.OnClickListener() {
+        holder.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopupMenu(holder.overflow);
+
+                holder.addBtn.setVisibility(View.GONE);
+                holder.addedText.setVisibility(View.VISIBLE);
             }
-        });*/
+        });
+
     }
-
-    /**
-     * Showing popup menu when tapping on 3 dots
-     */
-    /*private void showPopupMenu(View view) {
-        // inflate menu
-        PopupMenu popup = new PopupMenu(mContext, view);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_album, popup.getMenu());
-        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
-        popup.show();
-    }*/
-
-    /**
-     * Click listener for popup menu items
-     */
-    /*class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
-
-        public MyMenuItemClickListener() {
-        }
-
-        @Override
-        public boolean onMenuItemClick(MenuItem menuItem) {
-            switch (menuItem.getItemId()) {
-                case R.id.action_add_favourite:
-                    Toast.makeText(mContext, "Add to favourite", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.action_play_next:
-                    Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
-                    return true;
-                default:
-            }
-            return false;
-        }
-    }*/
 
     @Override
     public int getItemCount() {
