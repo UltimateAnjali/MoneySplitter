@@ -10,6 +10,7 @@ public class AddMembersData {
     String contactNum;
     String imageUrl;
     Boolean isAdded;
+    String key;
 
     public AddMembersData(){
 
@@ -46,5 +47,13 @@ public class AddMembersData {
 
     public void setAdded(Boolean added) {
         isAdded = added;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

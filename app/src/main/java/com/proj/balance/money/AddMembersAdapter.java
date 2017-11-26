@@ -11,10 +11,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +27,7 @@ public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.My
 
     private Context mContext;
     private List<AddMembersData> memberList;
+    public List<String> selectedMembers = new ArrayList<>();
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView personName, contact, addedText;
@@ -77,6 +80,8 @@ public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.My
             holder.addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    selectedMembers.add(membersData.getKey());
+                    //Toast.makeText(mContext,"Key: "+membersData.getKey(),Toast.LENGTH_LONG).show();
                     membersData.setAdded(true);
                     holder.addBtn.setVisibility(View.GONE);
                     holder.addedText.setVisibility(View.VISIBLE);

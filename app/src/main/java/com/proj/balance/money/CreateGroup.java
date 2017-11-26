@@ -114,26 +114,30 @@ public class CreateGroup extends AppCompatActivity{
             grpData.setGrpAdmin(UserData.firebaseUid);
             grpData.setGrpType(groupType);
 
-            HashMap<String,Boolean> members = new HashMap<>();
+            /*HashMap<String,Boolean> members = new HashMap<>();
             members.put(UserData.firebaseUid,true);
-            grpData.setMembers(members);
+            grpData.setMembers(members);*/
             myRef.setValue(grpData).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
+                    Intent intent = new Intent(getApplicationContext(),AddMembers.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("key",grpData.getGrpKey());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
                     Snackbar snackbar = Snackbar.make(coordinatorLayout,"Group Created",Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             });
 
-            DatabaseReference myref2 = dbref.child("moneySplit").child("users").child(UserData.firebaseUid);
+            /*DatabaseReference myref2 = dbref.child("moneySplit").child("users").child(UserData.firebaseUid);
             myref2.child("groups").child(grpData.getGrpKey()).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Intent intent = new Intent(getApplicationContext(),AddMembers.class);
-                    startActivity(intent);
-                    finish();
+
                 }
-            });
+            });*/
 
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"An error occured",Toast.LENGTH_LONG).show();

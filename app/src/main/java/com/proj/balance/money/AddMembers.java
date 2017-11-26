@@ -22,8 +22,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +34,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -39,9 +42,11 @@ public class AddMembers extends AppCompatActivity {
 
     private CoordinatorLayout coordinatorLayout;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
     private AddMembersAdapter membersAdapter;
     private List<AddMembersData> membersDataList;
     private List<AddMembersData> checkDataList = new ArrayList<>();
+    private List<String> mSelectedMembers = new ArrayList<>();
     private static final String TAG = "--Add Members--";
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     AddMembersData data;
@@ -49,17 +54,27 @@ public class AddMembers extends AppCompatActivity {
     int xy;
     int size;
     int loopCount=0;
+    private String grpKey;
+    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_members);
 
-
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+        Bundle myBundle = getIntent().getExtras();
+        if(myBundle!=null){
+            grpKey = myBundle.getString("key");
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+        }
+
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
 
         membersDataList = new ArrayList<>();
         membersAdapter = new AddMembersAdapter(this, membersDataList);
@@ -89,7 +104,7 @@ public class AddMembers extends AppCompatActivity {
                 // Permission is granted
                 checkpermission();
             } else {
-                Toast.makeText(this, "Until you grant the permission, we canot display the names", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Until you grant the permission, we cannot display the names", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -114,12 +129,15 @@ public class AddMembers extends AppCompatActivity {
 
         if (cursor != null) {
             try {
+
                 HashSet<String> normalizedNumbersAlreadyFound = new HashSet<>();
                 int indexOfNormalizedNumber = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER);
                 int indexOfDisplayName = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
                 int indexOfDisplayNumber = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
                 while (cursor.moveToNext()) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                     String normalizedNumber = cursor.getString(indexOfNormalizedNumber);
                     if (normalizedNumbersAlreadyFound.add(normalizedNumber)) {
                         String displayName = cursor.getString(indexOfDisplayName);
@@ -128,23 +146,26 @@ public class AddMembers extends AppCompatActivity {
                         Boolean isAdded = false;
 
                         data = new AddMembersData(displayName,newNumber,isAdded);
-                        membersDataList.add(data);
-                        //checkDataList.add(data);
+                        //membersDataList.add(data);
+                        checkDataList.add(data);
 
                     } else {
                     }
                 }
-                /*size = checkDataList.size();
+                size = checkDataList.size();
                 if(size>=1) {
                     CheckExist();
                     System.out.println("------------>size>=1");
-                }*/
+                }
 
             } finally {
                 cursor.close();
+
             }
         }
         membersAdapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     private String updatedNumber(String contact) {
@@ -164,9 +185,8 @@ public class AddMembers extends AppCompatActivity {
         return temp;
     }
 
-    /*private void CheckExist() {
+    private void CheckExist() {
 
-        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
         Query query = dbref.child("moneySplit").child("users")
                 .orderByChild("userContact").equalTo(checkDataList.get(loopCount).getContactNum());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -177,7 +197,10 @@ public class AddMembers extends AppCompatActivity {
 
                         UserData userData = contact.getValue(UserData.class);
 
-                        data = new AddMembersData(checkDataList.get(loopCount).getPersonName(),userData.getUserContact());
+                        data = new AddMembersData(checkDataList.get(loopCount).getPersonName(),
+                                userData.getUserContact(),
+                                checkDataList.get(loopCount).getAdded());
+                        data.setKey(userData.getFirebaseUid());
                         membersDataList.add(data);
                         membersAdapter.notifyDataSetChanged();
                         if(LoopHandling())
@@ -204,8 +227,7 @@ public class AddMembers extends AppCompatActivity {
     }
 
     private boolean LoopHandling() {
-        if(loopCount<size-1)
-        {
+        if(loopCount < size - 1) {
             loopCount++;
             CheckExist();
             return false;
@@ -213,7 +235,7 @@ public class AddMembers extends AppCompatActivity {
             return true;
         }
 
-    }*/
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -223,7 +245,30 @@ public class AddMembers extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(getApplicationContext(),"Lel",Toast.LENGTH_SHORT).show();
+        GroupData grpData = new GroupData();
+        mSelectedMembers = membersAdapter.selectedMembers;
+        HashMap<String,Boolean> members = new HashMap<>();
+
+        for(int cnt=0;cnt<mSelectedMembers.size();cnt++){
+            members.put(mSelectedMembers.get(cnt),true);
+        }
+
+        grpData.setMembers(members);
+        DatabaseReference mQuery = dbref.child("moneySplit").child("groups").child(grpKey);
+        mQuery.child("members").setValue(grpData.getMembers());
+
+        for(int memberCnt = 0; memberCnt < mSelectedMembers.size(); memberCnt++){
+            addGrpKeyInUserData(mSelectedMembers.get(memberCnt));
+        }
+        //Toast.makeText(getApplicationContext(),"mem"+mSelectedMembers,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),"Lel",Toast.LENGTH_SHORT).show();
+
         return true;
+    }
+
+    private void addGrpKeyInUserData(String userKey) {
+
+        final DatabaseReference ref = dbref.child("moneySplit").child("users").child(userKey).child("groups");
+        ref.child(grpKey).setValue(true);
     }
 }
