@@ -77,7 +77,9 @@ public class GroupFragment extends Fragment {
                     //Toast.makeText(getContext(),"Has"+UserData.groups,Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(getContext(),"No",Toast.LENGTH_SHORT).show();
+                    nogrp.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                    //Toast.makeText(getContext(),"No",Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -9,9 +9,17 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends Fragment {
@@ -19,6 +27,8 @@ public class ProfileFragment extends Fragment {
     ImageView imageView;
     TextView username;
     EditText useremail;
+    DatabaseReference dbref;
+    UserData userData;
 
     public ProfileFragment() {
     }
@@ -31,6 +41,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbref = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -40,8 +51,31 @@ public class ProfileFragment extends Fragment {
         username = (TextView)view.findViewById(R.id.user_name);
         useremail = (EditText) view.findViewById(R.id.user_email);
 
-        username.setText(UserData.userGivenName+" "+UserData.userFamilyName);
-        useremail.setText(UserData.userEmail);
+        Query query = dbref.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    userData = dataSnapshot.getValue(UserData.class);
+                    username.setText(UserData.userGivenName+" "+UserData.userFamilyName);
+                    useremail.setText(UserData.userEmail);
+                    Picasso.with(getContext())
+                            .load(Uri.parse(UserData.userPhoto))
+                            .noFade()
+                            .transform(new CircleTransform())
+                            .into(imageView);
+                }
+                else {
+                    Toast.makeText(getContext(),"An error occured",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         /*Glide.with(getContext()).load(Uri.parse(UserData.userPhoto))
                 .thumbnail(0.5f)
@@ -49,11 +83,7 @@ public class ProfileFragment extends Fragment {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);*/
 
-        Picasso.with(getContext())
-                .load(Uri.parse(UserData.userPhoto))
-                .noFade()
-                .transform(new CircleTransform())
-                .into(imageView);
+
         return view;
     }
 
