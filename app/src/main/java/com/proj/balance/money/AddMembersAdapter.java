@@ -88,9 +88,6 @@ public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.My
                 }
             });
         }
-
-
-
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.proj.balance.money;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -93,7 +94,7 @@ public class AddMembers extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
             //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
         } else {
-            prepareAlbums();
+            prepareData();
         }
     }
 
@@ -109,7 +110,7 @@ public class AddMembers extends AppCompatActivity {
         }
     }
 
-    private void prepareAlbums() {
+    private void prepareData() {
 
         String[] projection = new String[] {
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
@@ -260,9 +261,16 @@ public class AddMembers extends AppCompatActivity {
         for(int memberCnt = 0; memberCnt < mSelectedMembers.size(); memberCnt++){
             addGrpKeyInUserData(mSelectedMembers.get(memberCnt));
         }
+
+
+
+
         //Toast.makeText(getApplicationContext(),"mem"+mSelectedMembers,Toast.LENGTH_LONG).show();
         //Toast.makeText(getApplicationContext(),"Lel",Toast.LENGTH_SHORT).show();
 
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+        finish();
         return true;
     }
 
@@ -271,4 +279,13 @@ public class AddMembers extends AppCompatActivity {
         final DatabaseReference ref = dbref.child("moneySplit").child("users").child(userKey).child("groups");
         ref.child(grpKey).setValue(true);
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        Intent intent = new Intent(getApplicationContext(),CreateGroup.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putString("grpkey",grpKey);
+//        intent.putExtras(bundle);
+//        startActivity(intent);
+//    }
 }

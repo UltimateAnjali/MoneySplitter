@@ -4,11 +4,22 @@
     android:layout_height="match_parent"
     tools:context="com.proj.balance.money.GroupFragment">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/no_groups_text"
+        android:textSize="30sp"
+        android:text="No groups yet"
+        android:textColor="@color/inactiveDot"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:scrollbars="vertical"
-        android:id="@+id/grpRecyclerView"/>
+        android:id="@+id/grpRecyclerView"
+        android:visibility="gone"/>
 
 </FrameLayout>

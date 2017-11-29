@@ -58,7 +58,7 @@ public class CreateGroup extends AppCompatActivity{
     private GridView gridView;
     public CharSequence options[] = new CharSequence[]{"Apartment","Trip","Party","Social Gathering"};
     public GroupData grpData;
-    public String groupName, groupType;
+    public String groupName, groupType, key;
     private static final String TAG = "--Create Group--";
 
     @Override
@@ -71,12 +71,20 @@ public class CreateGroup extends AppCompatActivity{
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        grpData = new GroupData();
-
         til = (TextInputLayout)findViewById(R.id.grpNameLay);
         grpNmEdit = (EditText)findViewById(R.id.grpNameEdit);
         //selectBtn = (Button)findViewById(R.id.select_grp_type);
         gridView = (GridView) findViewById(R.id.mygrid);
+
+//        Bundle myBundle = getIntent().getExtras();
+//        if(myBundle!=null){
+//            key = myBundle.getString("grpkey");
+//        }
+//        else{
+//            Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
+//        }
+
+        grpData = new GroupData();
 
         gridView.setAdapter(new GridAdapter(this));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

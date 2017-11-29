@@ -25,7 +25,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-     //   FirebaseAuth.getInstance().signOut();
+        //FirebaseAuth.getInstance().signOut();
 
         if(FirebaseAuth.getInstance().getCurrentUser()!=null && FirebaseAuth.getInstance().getCurrentUser().getUid()!=null){
             DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();

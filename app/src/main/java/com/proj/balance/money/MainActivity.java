@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        super.onStart();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -94,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         mGoogleApiClient.connect();
-        super.onStart();
     }
 
     private void signOut(){

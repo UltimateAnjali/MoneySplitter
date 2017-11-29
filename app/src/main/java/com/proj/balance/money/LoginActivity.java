@@ -182,7 +182,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void signIn() {
-
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -218,52 +217,48 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         }
                         else {
                             Toast.makeText(LoginActivity.this, "Authentication Success", Toast.LENGTH_LONG).show();
-                            if(FirebaseAuth.getInstance().getCurrentUser()!=null && FirebaseAuth.getInstance().getCurrentUser().getUid()!=null){
-                                checkSignIn();
-                            }
-                            else{
-                                FirebaseAuth.getInstance().signOut();
-                                userData = new UserData(acct.getDisplayName(),
-                                        acct.getGivenName(),
-                                        acct.getFamilyName(),
-                                        acct.getEmail(),
-                                        acct.getId(),
-                                        String.valueOf(acct.getPhotoUrl()));
-                                userData.setFirebaseUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                mDatabase.child("moneySplit")
-                                        .child("users")
-                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .setValue(userData);
-                            }
-
-
-
-                           /* mDatabase.child("moneySplit")
-                                    .child("users")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            UserData userData = dataSnapshot.getValue(UserData.class);
-                                            if(userData.getDataflag() == null){
-                                                Toast.makeText(getApplicationContext(),"Flag null",Toast.LENGTH_LONG).show();
-                                                Intent mainIntent = new Intent(getApplicationContext(),ContactInfo.class);
-                                                LoginActivity.this.startActivity(mainIntent);
-                                                LoginActivity.this.finish();
-                                            }
-                                            else {
-                                                Toast.makeText(getApplicationContext(),"Flag not null",Toast.LENGTH_LONG).show();
-                                                Intent mainIntent = new Intent(getApplicationContext(),MainActivity.class);
-                                                LoginActivity.this.startActivity(mainIntent);
-                                                LoginActivity.this.finish();
-                                            }
+                            final Query query = mDatabase.child("moneySplit").child("users");
+                            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                       // Toast.makeText(getApplicationContext(),"Has",Toast.LENGTH_SHORT).show();
+                                        userData = dataSnapshot.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).getValue(UserData.class);
+                                        if(userData.getDataflag() == null){
+                                            Intent intent = new Intent(getApplicationContext(),ContactInfo.class);
+                                            startActivity(intent);
+                                            finish();
                                         }
-
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                            Toast.makeText(getApplicationContext(),"Server Error",Toast.LENGTH_LONG).show();
+                                        else {
+                                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
                                         }
-                                    });*/
+                                    }
+                                    else {
+                                       // Toast.makeText(getApplicationContext(),"No",Toast.LENGTH_SHORT).show();
+                                        userData = new UserData(acct.getDisplayName(),
+                                                acct.getGivenName(),
+                                                acct.getFamilyName(),
+                                                acct.getEmail(),
+                                                acct.getId(),
+                                                String.valueOf(acct.getPhotoUrl()));
+                                        userData.setFirebaseUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                        mDatabase.child("moneySplit")
+                                                .child("users")
+                                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                .setValue(userData);
+                                        Intent intent = new Intent(getApplicationContext(),ContactInfo.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                         }
                     }
                 });
