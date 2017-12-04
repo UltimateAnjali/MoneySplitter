@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -26,6 +27,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,8 +59,9 @@ public class AddMembers extends AppCompatActivity {
     int xy;
     int size;
     int loopCount=0;
-    private String grpKey;
+    private String groupName, groupType;
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
+    UserData mUserData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +73,8 @@ public class AddMembers extends AppCompatActivity {
 
         Bundle myBundle = getIntent().getExtras();
         if(myBundle!=null){
-            grpKey = myBundle.getString("key");
+            groupName = myBundle.getString("grpName");
+            groupType = myBundle.getString("grpType");
         }
         else{
             Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
@@ -246,7 +252,8 @@ public class AddMembers extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        GroupData grpData = new GroupData();
+
+        final GroupData grpData = new GroupData();
         mSelectedMembers = membersAdapter.selectedMembers;
         HashMap<String,Boolean> members = new HashMap<>();
 
@@ -254,27 +261,52 @@ public class AddMembers extends AppCompatActivity {
             members.put(mSelectedMembers.get(cnt),true);
         }
 
+        Query query = dbref.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    mUserData = dataSnapshot.getValue(UserData.class);
+                    grpData.setGrpAdmin(mUserData.getFirebaseUid());
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"An error occured",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        DatabaseReference mQuery = dbref.child("moneySplit").child("groups").push();
+
+        grpData.setGrpKey(mQuery.getKey());
+        grpData.setGrpType(groupType);
+        grpData.setGrpName(groupName);
+
         grpData.setMembers(members);
-        DatabaseReference mQuery = dbref.child("moneySplit").child("groups").child(grpKey);
-        mQuery.child("members").setValue(grpData.getMembers());
+
+        mQuery.setValue(grpData).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         for(int memberCnt = 0; memberCnt < mSelectedMembers.size(); memberCnt++){
-            addGrpKeyInUserData(mSelectedMembers.get(memberCnt));
+            addGrpKeyInUserData(mQuery.getKey().toString(),mSelectedMembers.get(memberCnt));
         }
 
-
-
-
-        //Toast.makeText(getApplicationContext(),"mem"+mSelectedMembers,Toast.LENGTH_LONG).show();
-        //Toast.makeText(getApplicationContext(),"Lel",Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
-        finish();
         return true;
     }
 
-    private void addGrpKeyInUserData(String userKey) {
+    private void addGrpKeyInUserData(String grpKey,String userKey) {
 
         final DatabaseReference ref = dbref.child("moneySplit").child("users").child(userKey).child("groups");
         ref.child(grpKey).setValue(true);

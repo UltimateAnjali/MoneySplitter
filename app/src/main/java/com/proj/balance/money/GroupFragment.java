@@ -25,13 +25,15 @@ import java.util.List;
 public class GroupFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private List<GroupData> groupDataList;
+    private List<GroupData> groupDataList = new ArrayList<>();
     private List<String> grpKeys = new ArrayList<>();
     private GroupFragmentAdapter adapter;
     private TextView nogrp;
     public UserData userData;
+    public GroupData groupData;
     private static final String TAG = "--Group Fragment--";
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
+    int loopControl = 0;
 
     public GroupFragment() {
     }
@@ -44,7 +46,7 @@ public class GroupFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        groupDataList = new ArrayList<>();
+        //groupDataList = new ArrayList<>();
         adapter = new GroupFragmentAdapter(getContext(),groupDataList);
 
         prepareGroupData();
@@ -74,6 +76,17 @@ public class GroupFragment extends Fragment {
                     nogrp.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     userData = dataSnapshot.getValue(UserData.class);
+
+                    for(String key:userData.getGroups().keySet()){
+                        //Toast.makeText(getContext(),""+key,Toast.LENGTH_SHORT).show();
+                        grpKeys.add(key);
+                        //getGroupData(key);
+                    }
+
+                    if(grpKeys.size()>=1){
+                        getGroupData();
+                    }
+
                     //Toast.makeText(getContext(),"Has"+UserData.groups,Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -89,9 +102,38 @@ public class GroupFragment extends Fragment {
             }
         });
 
-        /*for(int loopCount = 0; loopCount < userData.getGroups().size(); loopCount++){
-            grpKeys.add(userData.getGroups().toString());
-            Log.i(TAG,"JKJKJKJKJK"+grpKeys.get(loopCount));
-        }*/
     }
+
+
+
+    private void getGroupData() {
+
+        if(grpKeys.get(loopControl)!=null){
+            Query gQuery = dbref.child("moneySplit").child("groups").child(grpKeys.get(loopControl));
+            gQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        groupData = dataSnapshot.getValue(GroupData.class);
+                        //Toast.makeText(getContext(),"Ghel Ghaghrina"+groupData.getGrpName(),Toast.LENGTH_SHORT).show();
+                        groupDataList.add(groupData);
+                        Toast.makeText(getContext(),"Ghel Ghaghrina"+groupDataList.size(),Toast.LENGTH_SHORT).show();
+                        adapter.notifyDataSetChanged();
+                        if(loopControl < grpKeys.size()-1){
+                            loopControl++;
+                            getGroupData();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+    }
+
+
 }

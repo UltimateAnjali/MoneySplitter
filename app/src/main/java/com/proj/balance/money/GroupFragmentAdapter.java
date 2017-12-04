@@ -43,7 +43,7 @@ public class GroupFragmentAdapter extends RecyclerView.Adapter<GroupFragmentAdap
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         GroupData grpData = groupDataList.get(position);
-        holder.grpName.setError(grpData.getGrpName());
+        holder.grpName.setText(grpData.getGrpName());
     }
 
     @Override

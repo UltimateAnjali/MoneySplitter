@@ -94,10 +94,6 @@ public class CreateGroup extends AppCompatActivity{
                 //Toast.makeText(getApplicationContext(),"selected: "+adapterView.getItemAtPosition(i).toString(),Toast.LENGTH_LONG).show();
             }
         });
-
-        //selectBtn.setOnClickListener(this);
-
-        //checkContactPermission();
     }
 
     @Override
@@ -110,9 +106,17 @@ public class CreateGroup extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
 
         groupName = grpNmEdit.getText().toString();
-        //String groupType = selectBtn.getText().toString();
-        //int numberOfMembers = moji.size();
-        try{
+        Intent intent = new Intent(getApplicationContext(),AddMembers.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("grpName",groupName);
+        bundle.putString("grpType",groupType);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+        Snackbar snackbar = Snackbar.make(coordinatorLayout,"Group Created",Snackbar.LENGTH_LONG);
+        snackbar.show();
+
+       /* try{
 
             DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
             DatabaseReference myRef = dbref.child("moneySplit").child("groups").push();
@@ -124,7 +128,7 @@ public class CreateGroup extends AppCompatActivity{
 
             /*HashMap<String,Boolean> members = new HashMap<>();
             members.put(UserData.firebaseUid,true);
-            grpData.setMembers(members);*/
+            grpData.setMembers(members);
             myRef.setValue(grpData).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -139,17 +143,9 @@ public class CreateGroup extends AppCompatActivity{
                 }
             });
 
-            /*DatabaseReference myref2 = dbref.child("moneySplit").child("users").child(UserData.firebaseUid);
-            myref2.child("groups").child(grpData.getGrpKey()).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-
-                }
-            });*/
-
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"An error occured",Toast.LENGTH_LONG).show();
-        }
+        }*/
         return true;
     }
 }
