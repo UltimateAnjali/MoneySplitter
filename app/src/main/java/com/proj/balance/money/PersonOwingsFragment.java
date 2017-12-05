@@ -123,11 +123,8 @@ public class PersonOwingsFragment extends Fragment {
                         //Toast.makeText(getContext(),"no: "+muserData.getUserGivenName(),Toast.LENGTH_SHORT).show();
                         fluserDataList.add(muserData);
 
-
-
                         if(count < members.size()-1){
                             count++;
-
                             getGroupMembersData();
                         }
                         adapter.notifyDataSetChanged();

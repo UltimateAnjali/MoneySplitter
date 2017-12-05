@@ -18,12 +18,13 @@ public class GroupFragmentAdapter extends RecyclerView.Adapter<GroupFragmentAdap
     private List<GroupData> groupDataList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView grpName, grpOwing;
+        public TextView grpName, grpOwing, grpType;
 
         public MyViewHolder(View view) {
             super(view);
             grpName = (TextView)view.findViewById(R.id.grp_name);
             grpOwing = (TextView)view.findViewById(R.id.grp_owing);
+            grpType = (TextView)view.findViewById(R.id.grp_type_text);
         }
     }
 
@@ -44,6 +45,7 @@ public class GroupFragmentAdapter extends RecyclerView.Adapter<GroupFragmentAdap
     public void onBindViewHolder(MyViewHolder holder, int position) {
         GroupData grpData = groupDataList.get(position);
         holder.grpName.setText(grpData.getGrpName());
+        holder.grpType.setText(grpData.getGrpType());
     }
 
     @Override

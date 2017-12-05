@@ -26,7 +26,7 @@ public class ProfileFragment extends Fragment {
 
     ImageView imageView;
     TextView username;
-    EditText useremail;
+    EditText useremail, userContact;
     //object
     DatabaseReference dbref;
     UserData userData;
@@ -51,6 +51,7 @@ public class ProfileFragment extends Fragment {
         imageView = (ImageView)view.findViewById(R.id.profile_image);
         username = (TextView)view.findViewById(R.id.user_name);
         useremail = (EditText) view.findViewById(R.id.user_email);
+        userContact = (EditText)view.findViewById(R.id.user_contact);
 //
         Query query = dbref.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -60,6 +61,7 @@ public class ProfileFragment extends Fragment {
                     userData = dataSnapshot.getValue(UserData.class);
                     username.setText(userData.getUserGivenName()+" "+userData.getUserFamilyName());
                     useremail.setText(userData.getUserEmail());
+                    userContact.setText(userData.getUserContact());
                     //user object for contact
                     Picasso.with(getContext())
                             .load(Uri.parse(userData.getUserPhoto()))
