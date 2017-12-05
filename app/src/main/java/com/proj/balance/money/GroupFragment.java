@@ -117,7 +117,7 @@ public class GroupFragment extends Fragment {
                         groupData = dataSnapshot.getValue(GroupData.class);
                         //Toast.makeText(getContext(),"Ghel Ghaghrina"+groupData.getGrpName(),Toast.LENGTH_SHORT).show();
                         groupDataList.add(groupData);
-                        Toast.makeText(getContext(),"Ghel Ghaghrina"+groupDataList.size(),Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(),"Ghel Ghaghrina"+groupDataList.size(),Toast.LENGTH_SHORT).show();
                         adapter.notifyDataSetChanged();
                         if(loopControl < grpKeys.size()-1){
                             loopControl++;

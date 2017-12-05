@@ -62,6 +62,7 @@ public class AddMembers extends AppCompatActivity {
     private String groupName, groupType;
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
     UserData mUserData;
+    GroupData groupData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,7 +215,7 @@ public class AddMembers extends AppCompatActivity {
                         {
                             break;
                         }
-                        Toast.makeText(getApplicationContext(),"aai gayu"+membersDataList.get(0).getPersonName(),Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getApplicationContext(),"aai gayu"+membersDataList.get(0).getPersonName(),Toast.LENGTH_LONG).show();
                         System.out.println("------------>membersDataList "+membersDataList.get(0).getPersonName());
                     }
                 }
@@ -253,7 +254,7 @@ public class AddMembers extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        final GroupData grpData = new GroupData();
+        //final GroupData grpData = new GroupData();
         mSelectedMembers = membersAdapter.selectedMembers;
         HashMap<String,Boolean> members = new HashMap<>();
 
@@ -267,7 +268,7 @@ public class AddMembers extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     mUserData = dataSnapshot.getValue(UserData.class);
-                    grpData.setGrpAdmin(mUserData.getFirebaseUid());
+                    groupData.setGrpAdmin(mUserData.getFirebaseUid());
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"An error occured",Toast.LENGTH_SHORT).show();
@@ -280,17 +281,15 @@ public class AddMembers extends AppCompatActivity {
             }
         });
 
-
-
         DatabaseReference mQuery = dbref.child("moneySplit").child("groups").push();
 
-        grpData.setGrpKey(mQuery.getKey());
-        grpData.setGrpType(groupType);
-        grpData.setGrpName(groupName);
+        groupData.setGrpKey(mQuery.getKey());
+        groupData.setGrpType(groupType);
+        groupData.setGrpName(groupName);
 
-        grpData.setMembers(members);
+        groupData.setMembers(members);
 
-        mQuery.setValue(grpData).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mQuery.setValue(groupData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
