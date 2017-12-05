@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,7 +25,7 @@ import java.util.List;
 public class PersonOwingsFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private List<UserData> userDataList = new ArrayList<>();
+    private List<UserData> fluserDataList = new ArrayList<>();
     private List<String> grpKeys = new ArrayList<>();
     private List<String> members = new ArrayList<>();
     private PersonOwingsAdapter adapter;
@@ -47,7 +48,7 @@ public class PersonOwingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new PersonOwingsAdapter(getContext(),userDataList);
+        adapter = new PersonOwingsAdapter(getContext(),fluserDataList);
         prepareUserData();
     }
 
@@ -95,10 +96,6 @@ public class PersonOwingsFragment extends Fragment {
                             loopControl++;
                             getGroupData();
                         }
-                        if(members.size()>=1){
-                            getGroupMembersData();
-                        }
-
                     }
                 }
 
@@ -108,23 +105,32 @@ public class PersonOwingsFragment extends Fragment {
                 }
             });
         }
+
+        if(members.size()>=1){
+            getGroupMembersData();
+        }
     }
 
     private void getGroupMembersData() {
         if(members.get(count)!=null){
+            //Toast.makeText(getContext(),"key: "+members.get(count).toString(),Toast.LENGTH_SHORT).show();
             Query mQueryy = dbref.child("moneySplit").child("users").child(members.get(count));
             mQueryy.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
-                        userData = dataSnapshot.getValue(UserData.class);
-                        userDataList.add(userData);
-                        adapter.notifyDataSetChanged();
+                        UserData muserData = dataSnapshot.getValue(UserData.class);
+                        //Toast.makeText(getContext(),"no: "+muserData.getUserGivenName(),Toast.LENGTH_SHORT).show();
+                        fluserDataList.add(muserData);
+
+
 
                         if(count < members.size()-1){
                             count++;
+
                             getGroupMembersData();
                         }
+                        adapter.notifyDataSetChanged();
                     }
                 }
 

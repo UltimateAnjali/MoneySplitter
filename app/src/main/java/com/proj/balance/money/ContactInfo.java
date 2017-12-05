@@ -29,6 +29,7 @@ public class ContactInfo extends AppCompatActivity {
     Button bnext;
     String temp;
     private static final String TAG = "--Contact Info--";
+    UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +65,11 @@ public class ContactInfo extends AppCompatActivity {
                             temp = temp + contact.substring(3,6) + "-" + contact.substring(6);
                         }
                     }
-                    UserData.userContact = temp;
+                    userData.setUserContact(temp);
+                    userData.setDataflag(true);
+                    //UserData.userContact = temp;
                     //Toast.makeText(getApplicationContext(),"Length: "+contact.length()+"\nNumber: "+temp,Toast.LENGTH_LONG).show();
-                    UserData.dataflag = true;
+                    //UserData.dataflag = true;
                     try{
                         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                         DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -75,8 +78,8 @@ public class ContactInfo extends AppCompatActivity {
                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                dataSnapshot.getRef().child("userContact").setValue(UserData.userContact);
-                                dataSnapshot.getRef().child("dataflag").setValue(UserData.dataflag);
+                                dataSnapshot.getRef().child("userContact").setValue(userData.getUserContact());
+                                dataSnapshot.getRef().child("dataflag").setValue(userData.getDataflag());
                                 Intent intent = new Intent(ContactInfo.this,MainActivity.class);
                                 startActivity(intent);
                                 finish();

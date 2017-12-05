@@ -11,16 +11,16 @@ import java.util.HashMap;
 
 public class UserData implements Serializable {
 
-    public static String userName;
-    public static String userGivenName;
-    public static String userFamilyName;
-    public static String userEmail;
-    public static String userId;
-    public static String userPhoto;
-    public static String firebaseUid;
-    public static HashMap<String,Boolean> groups = new HashMap<>();
-    public static String userContact;
-    public static Boolean dataflag;
+    public String userName;
+    public String userGivenName;
+    public String userFamilyName;
+    public String userEmail;
+    public String userId;
+    public String userPhoto;
+    public String firebaseUid;
+    public HashMap<String,Boolean> groups = new HashMap<>();
+    public String userContact;
+    public Boolean dataflag;
 
 
     public UserData(){
@@ -57,15 +57,15 @@ public class UserData implements Serializable {
         this.userId = userId;
     }
 
-    public void setUserPhoto(String userPhoto) {UserData.userPhoto = userPhoto;}
+    public void setUserPhoto(String userPhoto) {this.userPhoto = userPhoto;}
 
-    public void setFirebaseUid(String firebaseUid) {UserData.firebaseUid = firebaseUid;}
+    public void setFirebaseUid(String firebaseUid) {this.firebaseUid = firebaseUid;}
 
-    public void setGroups(HashMap<String, Boolean> groups) {UserData.groups = groups;}
+    public void setGroups(HashMap<String, Boolean> groups) {this.groups = groups;}
 
-    public void setUserContact(String userContact) {UserData.userContact = userContact;}
+    public void setUserContact(String userContact) {this.userContact = userContact;}
 
-    public void setDataflag(Boolean dataflag) {UserData.dataflag = dataflag;}
+    public void setDataflag(Boolean dataflag) {this.dataflag = dataflag;}
 
 
     //Getters

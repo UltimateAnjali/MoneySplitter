@@ -58,11 +58,11 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     userData = dataSnapshot.getValue(UserData.class);
-                    username.setText(UserData.userGivenName+" "+UserData.userFamilyName);
-                    useremail.setText(UserData.userEmail);
+                    username.setText(userData.getUserGivenName()+" "+userData.getUserFamilyName());
+                    useremail.setText(userData.getUserEmail());
                     //user object for contact
                     Picasso.with(getContext())
-                            .load(Uri.parse(UserData.userPhoto))
+                            .load(Uri.parse(userData.getUserPhoto()))
                             .noFade()
                             .transform(new CircleTransform())
                             .into(imageView);
