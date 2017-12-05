@@ -61,8 +61,8 @@ public class AddMembers extends AppCompatActivity {
     int loopCount=0;
     private String groupName, groupType;
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
-    UserData mUserData;
-    GroupData groupData;
+    public UserData mUserData;
+    public GroupData groupData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,21 +254,13 @@ public class AddMembers extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        //final GroupData grpData = new GroupData();
-        mSelectedMembers = membersAdapter.selectedMembers;
-        HashMap<String,Boolean> members = new HashMap<>();
-
-        for(int cnt=0;cnt<mSelectedMembers.size();cnt++){
-            members.put(mSelectedMembers.get(cnt),true);
-        }
-
         Query query = dbref.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     mUserData = dataSnapshot.getValue(UserData.class);
-                    groupData.setGrpAdmin(mUserData.getFirebaseUid());
+                    putAllGroupData();
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"An error occured",Toast.LENGTH_SHORT).show();
@@ -281,12 +273,24 @@ public class AddMembers extends AppCompatActivity {
             }
         });
 
-        DatabaseReference mQuery = dbref.child("moneySplit").child("groups").push();
+        return true;
+    }
 
+    private void putAllGroupData() {
+        groupData = new GroupData();
+        DatabaseReference mQuery = dbref.child("moneySplit").child("groups").push();
+        mSelectedMembers = membersAdapter.selectedMembers;
+        HashMap<String,Boolean> members = new HashMap<>();
+
+        for(int cnt=0;cnt<mSelectedMembers.size();cnt++){
+            members.put(mSelectedMembers.get(cnt),true);
+        }
+
+        //Toast.makeText(getApplicationContext(),"an"+mUserData.getUserGivenName(),Toast.LENGTH_SHORT).show();
+        groupData.setGrpAdmin(mUserData.getFirebaseUid());
         groupData.setGrpKey(mQuery.getKey());
         groupData.setGrpType(groupType);
         groupData.setGrpName(groupName);
-
         groupData.setMembers(members);
 
         mQuery.setValue(groupData).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -301,8 +305,6 @@ public class AddMembers extends AppCompatActivity {
         for(int memberCnt = 0; memberCnt < mSelectedMembers.size(); memberCnt++){
             addGrpKeyInUserData(mQuery.getKey().toString(),mSelectedMembers.get(memberCnt));
         }
-
-        return true;
     }
 
     private void addGrpKeyInUserData(String grpKey,String userKey) {
