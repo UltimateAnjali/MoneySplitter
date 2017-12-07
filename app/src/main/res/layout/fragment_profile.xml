@@ -4,90 +4,97 @@
     android:layout_height="match_parent"
     tools:context="com.proj.balance.money.ProfileFragment">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linear_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp"
-        android:weightSum="3">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_weight="1"
-            android:layout_gravity="center" />
-
-        <TextView
-            android:text="Dummy Name"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textColor="@color/colorBlack"
-            android:layout_gravity="center"
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"/>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linear_layout2"
-        android:orientation="horizontal"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/linear_layout"
-        android:layout_gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_email_tv"
-            android:text="Email: "/>
-
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/user_email"
-            android:enabled="false"
-            android:textColor="@color/inactiveDot"/>
-    </LinearLayout>
+            android:id="@+id/linear_layout"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:weightSum="3">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linear_layout4"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:layout_below="@+id/linear_layout">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_contact_tv"
-            android:text="Contact: "/>
+                <ImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_centerInParent="true"/>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_contact"
-            android:enabled="false"
-            android:textColor="@color/inactiveDot"/>
-    </LinearLayout>
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/edit_user"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:text="E"/>
+            </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linear_layout3"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/linear_layout">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dummy Name"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:layout_gravity="center"
+                android:id="@+id/user_name" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_email_tv"
+                android:textColor="@color/colorBlack"
+                android:text="Email: "
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_marginLeft="15dp"/>
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_email"
+                android:enabled="false"
+                android:textColor="@color/inactiveDot"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
 
-    </LinearLayout>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_contact_tv"
+                android:textColor="@color/colorBlack"
+                android:text="Contact: "
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_marginLeft="15dp"/>
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_contact"
+                android:enabled="false"
+                android:textColor="@color/inactiveDot"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/save_changes"
+                android:text="Save"/>
+
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

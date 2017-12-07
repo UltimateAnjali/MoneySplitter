@@ -27,7 +27,7 @@ public class PersonOwingsFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<UserData> fluserDataList = new ArrayList<>();
     private List<String> grpKeys = new ArrayList<>();
-    private List<String> members = new ArrayList<>();
+    private static List<String> members = new ArrayList<>();
     private PersonOwingsAdapter adapter;
     private TextView noowings;
     public UserData userData;

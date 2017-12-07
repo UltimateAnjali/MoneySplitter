@@ -105,8 +105,6 @@ public class GroupFragment extends Fragment {
 
     }
 
-
-
     private void getGroupData() {
 
         if(grpKeys.get(loopControl)!=null){

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ public class ProfileFragment extends Fragment {
     ImageView imageView;
     TextView username;
     EditText useremail, userContact;
-    //object
+    Button edit, save;
     DatabaseReference dbref;
     UserData userData;
 
@@ -52,6 +53,8 @@ public class ProfileFragment extends Fragment {
         username = (TextView)view.findViewById(R.id.user_name);
         useremail = (EditText) view.findViewById(R.id.user_email);
         userContact = (EditText)view.findViewById(R.id.user_contact);
+        edit = (Button)view.findViewById(R.id.edit_user);
+        save = (Button)view.findViewById(R.id.save_changes);
 //
         Query query = dbref.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
