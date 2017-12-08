@@ -11,4 +11,8 @@
     <string name="menu_item_1">Groups</string>
     <string name="menu_item_2">Owings</string>
     <string name="menu_item_3">Profile</string>
+    <string name="db_name">moneySplit</string>
+    <string name="user_table">users</string>
+    <string name="group_table">groups</string>
+    <string name="user_members">userMembers</string>
 </resources>

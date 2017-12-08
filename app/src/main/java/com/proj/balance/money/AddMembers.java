@@ -280,10 +280,14 @@ public class AddMembers extends AppCompatActivity {
         groupData = new GroupData();
         DatabaseReference mQuery = dbref.child("moneySplit").child("groups").push();
         mSelectedMembers = membersAdapter.selectedMembers;
-        HashMap<String,Boolean> members = new HashMap<>();
+        final HashMap<String,Boolean> members = new HashMap<>();
 
         for(int cnt=0;cnt<mSelectedMembers.size();cnt++){
             members.put(mSelectedMembers.get(cnt),true);
+        }
+
+        for(int memberCnt = 0; memberCnt < mSelectedMembers.size(); memberCnt++){
+            addGrpKeyInUserData(mQuery.getKey().toString(),mSelectedMembers.get(memberCnt));
         }
 
         //Toast.makeText(getApplicationContext(),"an"+mUserData.getUserGivenName(),Toast.LENGTH_SHORT).show();
@@ -296,22 +300,72 @@ public class AddMembers extends AppCompatActivity {
         mQuery.setValue(groupData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
-                finish();
+                if (members!=null){
+                    putUserMembers(members);
+                }
+
+//                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+//                startActivity(intent);
+//                finish();
             }
         });
-
-        for(int memberCnt = 0; memberCnt < mSelectedMembers.size(); memberCnt++){
-            addGrpKeyInUserData(mQuery.getKey().toString(),mSelectedMembers.get(memberCnt));
-        }
     }
 
     private void addGrpKeyInUserData(String grpKey,String userKey) {
-
         final DatabaseReference ref = dbref.child("moneySplit").child("users").child(userKey).child("groups");
         ref.child(grpKey).setValue(true);
     }
+
+    private void putUserMembers(final HashMap<String, Boolean> members) {
+        final ArrayList<String> databaseMembers = new ArrayList<>();
+        ArrayList<String> mUserMembers = new ArrayList<>();
+
+        final DatabaseReference myref = dbref
+                .child(getString(R.string.db_name))
+                .child(getString(R.string.user_members))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Query query2 = myref;
+        query2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot memberSnapshot: dataSnapshot.getChildren()){
+                        databaseMembers.add(memberSnapshot.getKey());
+                    }
+                    Toast.makeText(getApplicationContext(),"Exists",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    myref.setValue(members);
+                    Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        if(databaseMembers!=null){
+            for (int cnt=0;cnt<mSelectedMembers.size();cnt++){
+                if (!databaseMembers.contains(mSelectedMembers.get(cnt))){
+                    databaseMembers.add(mSelectedMembers.get(cnt));
+                    DatabaseReference dbref1 = dbref.child(getString(R.string.db_name))
+                            .child(getString(R.string.user_members))
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    dbref1.child(mSelectedMembers.get(cnt)).setValue(true);
+                }
+            }
+        }
+//        myref.setValue(members).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+    }
+
+
 
 //    @Override
 //    public void onBackPressed() {
