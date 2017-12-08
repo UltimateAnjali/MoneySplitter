@@ -304,9 +304,7 @@ public class AddMembers extends AppCompatActivity {
                     putUserMembers(members);
                 }
 
-//                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-//                startActivity(intent);
-//                finish();
+
             }
         });
     }
@@ -332,11 +330,11 @@ public class AddMembers extends AppCompatActivity {
                     for(DataSnapshot memberSnapshot: dataSnapshot.getChildren()){
                         databaseMembers.add(memberSnapshot.getKey());
                     }
-                    Toast.makeText(getApplicationContext(),"Exists",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"Exists",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     myref.setValue(members);
-                    Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -357,6 +355,10 @@ public class AddMembers extends AppCompatActivity {
                 }
             }
         }
+
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
 //        myref.setValue(members).addOnSuccessListener(new OnSuccessListener<Void>() {
 //            @Override
 //            public void onSuccess(Void aVoid) {

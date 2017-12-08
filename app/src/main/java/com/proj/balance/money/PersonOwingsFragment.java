@@ -66,21 +66,23 @@ public class PersonOwingsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new PersonOwingsAdapter(getContext(),userDataList);
-        getCurrentUserData();
+        checkIfDataExists();
     }
 
-    private void getCurrentUserData() {
-        Query query = dbref.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    private void checkIfDataExists() {
+        Query query = dbref.child(getString(R.string.db_name))
+                .child(getString(R.string.user_members));
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
+                if(dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                     noowings.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
-                    UserData mUserData = dataSnapshot.getValue(UserData.class);
-                    for(String key: mUserData.getGroups().keySet()){
-                        grpKeys.add(key);
-                    }
+                    getMembersData();
+                }
+                else {
+                    noowings.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                 }
             }
 
@@ -89,86 +91,54 @@ public class PersonOwingsFragment extends Fragment {
 
             }
         });
-
-        if (grpKeys.size()>=1){
-            getAllMembersFromGroupKeys();
-        }
-//        else{
-//            noowings.setVisibility(View.VISIBLE);
-//            recyclerView.setVisibility(View.GONE);
-//        }
     }
 
-    private void getAllMembersFromGroupKeys() {
-        if (grpKeys.get(loopCount)!=null){
-            Query query2 = dbref.child(String.valueOf(R.string.db_name))
-                    .child(String.valueOf(R.string.group_table))
-                    .child(grpKeys.get(loopCount));
-            query2.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists()){
-                        groupData = dataSnapshot.getValue(GroupData.class);
-                        for (String memberKey: groupData.getMembers().keySet()){
-                            allMemberKeys.add(memberKey);
-                        }
-
+    private void getMembersData() {
+        Query query2 = dbref
+                .child(getString(R.string.db_name))
+                .child(getString(R.string.user_members))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot memberSnapshot: dataSnapshot.getChildren()){
+                        allMemberKeys.add(memberSnapshot.getKey());
+                        getUserData(memberSnapshot.getKey());
                     }
+
+                    //Toast.makeText(getContext(),"Exists",Toast.LENGTH_SHORT).show();
                 }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
+                else {
+                    //myref.setValue(members);
+                    Toast.makeText(getContext(),"No members",Toast.LENGTH_SHORT).show();
                 }
-            });
-        }
-
-        if(loopCount < grpKeys.size()-1){
-            loopCount++;
-            getAllMembersFromGroupKeys();
-        }
-        else{
-            filterAllMemberKeys();
-        }
-    }
-
-    private void filterAllMemberKeys() {
-        for(int cnt=0; cnt < allMemberKeys.size(); cnt++){
-            if(!filteredKeys.contains(allMemberKeys.get(cnt))){
-                filteredKeys.add(allMemberKeys.get(cnt));
             }
-        }
-        Log.d(TAG,"NOT FIL: "+allMemberKeys.size());
-        Log.d(TAG,"FIL: "+filteredKeys.size());
-        getActualData();
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
-    private void getActualData() {
-        if(filteredKeys.get(filterCount)!=null){
-            Query query2 = dbref.child(String.valueOf(R.string.db_name))
-                    .child(String.valueOf(R.string.user_table))
-                    .child(filteredKeys.get(filterCount));
-            query2.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()){
-                        userData = dataSnapshot.getValue(UserData.class);
-                        userDataList.add(userData);
-                        adapter.notifyDataSetChanged();
-                    }
+    private void getUserData(String key) {
+        Query query3 = dbref.child(getString(R.string.db_name))
+                .child(getString(R.string.user_table)).child(key);
+        query3.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    UserData userData = dataSnapshot.getValue(UserData.class);
+                    userDataList.add(userData);
+                    adapter.notifyDataSetChanged();
                 }
+            }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
-        }
-        if(filterCount < filteredKeys.size()-1){
-            filterCount++;
-            getActualData();
-        }
-
+            }
+        });
     }
-
 }

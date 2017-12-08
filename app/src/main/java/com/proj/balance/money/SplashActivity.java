@@ -40,7 +40,7 @@ public class SplashActivity extends Activity {
                         UserData userData = dataSnapshot.getValue(UserData.class);
 
                         if(userData.getDataflag() == null){
-                            Toast.makeText(getApplicationContext(),"Data flag null",Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(),"Data flag null",Toast.LENGTH_LONG).show();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -52,7 +52,7 @@ public class SplashActivity extends Activity {
 
                         }
                         else {
-                            Toast.makeText(getApplicationContext(),"Data flag not null",Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(),"Data flag not null",Toast.LENGTH_LONG).show();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -64,7 +64,7 @@ public class SplashActivity extends Activity {
                         }
 
                     }else{
-                        Toast.makeText(getApplicationContext(),"User doesn't exist",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"User doesn't exist",Toast.LENGTH_LONG).show();
                         Log.d(TAG,"User doesn't exist");
                         FirebaseAuth.getInstance().signOut();
                         new Handler().postDelayed(new Runnable() {
@@ -88,7 +88,7 @@ public class SplashActivity extends Activity {
             });
         }
         else {
-            Toast.makeText(getApplicationContext(),"User doesn't exist 4",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"User doesn't exist 4",Toast.LENGTH_LONG).show();
             Log.d(TAG,"User doesn't exist");
             new Handler().postDelayed(new Runnable() {
                 @Override
