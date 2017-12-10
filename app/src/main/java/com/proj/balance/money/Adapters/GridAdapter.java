@@ -1,4 +1,4 @@
-package com.proj.balance.money;
+package com.proj.balance.money.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.proj.balance.money.R;
 
 import java.security.PublicKey;
 

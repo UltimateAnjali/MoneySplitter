@@ -1,15 +1,13 @@
-package com.proj.balance.money;
+package com.proj.balance.money.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -20,6 +18,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.proj.balance.money.Fragments.GroupFragment;
+import com.proj.balance.money.Fragments.PersonOwingsFragment;
+import com.proj.balance.money.Fragments.ProfileFragment;
+import com.proj.balance.money.R;
 
 public class MainActivity extends AppCompatActivity {
 

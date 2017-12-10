@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.proj.balance.money">
 
-
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
@@ -12,7 +11,7 @@
         android:roundIcon="@drawable/money"
         android:supportsRtl="true">
         <activity
-            android:name=".SplashActivity"
+            android:name=".Activities.SplashActivity"
             android:theme="@style/MyTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,19 +20,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CreateGroup"
+            android:name=".Activities.CreateGroup"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".ContactInfo"
+            android:name=".Activities.ContactInfo"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:theme="@style/MyTheme" />
         <activity
-            android:name=".AddMembers"
+            android:name=".Activities.AddMembers"
+            android:theme="@style/MyTheme" />
+        <activity android:name=".Activities.AddExpenses"
             android:theme="@style/MyTheme"/>
     </application>
 

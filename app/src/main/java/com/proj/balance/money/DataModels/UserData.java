@@ -1,4 +1,4 @@
-package com.proj.balance.money;
+package com.proj.balance.money.DataModels;
 
 import android.net.Uri;
 

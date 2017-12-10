@@ -1,4 +1,4 @@
-package com.proj.balance.money;
+package com.proj.balance.money.DataModels;
 
 /**
  * Created by anjali desai on 10-11-2017.

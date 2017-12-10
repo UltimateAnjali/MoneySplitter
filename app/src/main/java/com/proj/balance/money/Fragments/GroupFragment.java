@@ -1,16 +1,16 @@
-package com.proj.balance.money;
+package com.proj.balance.money.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +19,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.proj.balance.money.Activities.AddExpenses;
+import com.proj.balance.money.Adapters.GroupFragmentAdapter;
+import com.proj.balance.money.DataModels.GroupData;
+import com.proj.balance.money.DataModels.UserData;
+import com.proj.balance.money.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +40,7 @@ public class GroupFragment extends Fragment {
     private static final String TAG = "--Group Fragment--";
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
     int loopControl = 0;
+    FloatingActionButton floatingActionButton;
 
     public GroupFragment() {
     }
@@ -59,11 +65,20 @@ public class GroupFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_group, container, false);
         recyclerView = (RecyclerView)view.findViewById(R.id.grpRecyclerView);
         nogrp = (TextView)view.findViewById(R.id.no_groups_text);
+        floatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),AddExpenses.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -76,6 +91,7 @@ public class GroupFragment extends Fragment {
 
                     nogrp.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
+                    floatingActionButton.setVisibility(View.VISIBLE);
                     userData = dataSnapshot.getValue(UserData.class);
 
                     for(String key:userData.getGroups().keySet()){
@@ -93,6 +109,7 @@ public class GroupFragment extends Fragment {
                 else{
                     nogrp.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
+                    floatingActionButton.setVisibility(View.GONE);
                     //Toast.makeText(getContext(),"No",Toast.LENGTH_SHORT).show();
                 }
             }

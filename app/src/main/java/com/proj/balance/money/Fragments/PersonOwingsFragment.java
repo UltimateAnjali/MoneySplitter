@@ -1,11 +1,12 @@
-package com.proj.balance.money;
+package com.proj.balance.money.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,26 +20,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.proj.balance.money.Activities.AddExpenses;
+import com.proj.balance.money.Adapters.PersonOwingsAdapter;
+import com.proj.balance.money.DataModels.UserData;
+import com.proj.balance.money.R;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
-public class PersonOwingsFragment extends Fragment {
+public class PersonOwingsFragment extends Fragment{
 
     private RecyclerView recyclerView;
     private List<UserData> userDataList = new ArrayList<>();
-    private List<String> grpKeys = new ArrayList<>();
     private List<String> allMemberKeys = new ArrayList<>();
-    private List<String> filteredKeys = new ArrayList<>();
     private PersonOwingsAdapter adapter;
     private TextView noowings;
-    public UserData userData;
-    public GroupData groupData;
     private static final String TAG = "--Person Fragment--";
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
-    int loopCount = 0;
-    int filterCount = 0;
+    FloatingActionButton floatingActionButton;
 
     public PersonOwingsFragment() {
     }
@@ -54,20 +53,37 @@ public class PersonOwingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_person_owings, container, false);
         recyclerView = (RecyclerView)view.findViewById(R.id.persRecyclerView);
         noowings = (TextView)view.findViewById(R.id.no_owings_text);
+        floatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),AddExpenses.class);
+                startActivity(intent);
+            }
+        });
         return  view;
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new PersonOwingsAdapter(getContext(),userDataList);
+
+
         checkIfDataExists();
+
     }
+
+//    public void navigateToExpenses(View view){
+//        Toast.makeText(getContext(),"Clicked",Toast.LENGTH_SHORT).show();
+//    }
 
     private void checkIfDataExists() {
         Query query = dbref.child(getString(R.string.db_name))
@@ -77,12 +93,14 @@ public class PersonOwingsFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                     noowings.setVisibility(View.GONE);
+                    floatingActionButton.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.VISIBLE);
                     getMembersData();
                 }
                 else {
                     noowings.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
+                    floatingActionButton.setVisibility(View.GONE);
                 }
             }
 
@@ -141,4 +159,5 @@ public class PersonOwingsFragment extends Fragment {
             }
         });
     }
+
 }
