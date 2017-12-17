@@ -63,7 +63,7 @@ public class PersonOwingsFragment extends Fragment{
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),AddExpenses.class);
+                Intent intent = new Intent(getActivity(),SelectGroupForExpenses.class);
                 startActivity(intent);
             }
         });

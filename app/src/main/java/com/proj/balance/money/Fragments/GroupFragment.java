@@ -2,8 +2,10 @@ package com.proj.balance.money.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,7 +33,7 @@ import java.util.List;
 public class GroupFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private List<GroupData> groupDataList = new ArrayList<>();
+    private ArrayList<GroupData> groupDataList = new ArrayList<GroupData>();
     private List<String> grpKeys = new ArrayList<>();
     private GroupFragmentAdapter adapter;
     private TextView nogrp;
@@ -75,8 +77,17 @@ public class GroupFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),AddExpenses.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(),SelectGroupForExpenses.class);
+//                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("myArray", groupDataList);
+
+                Fragment fragment = new Fragment();
+                fragment = SelectGroupForExpenses.newInstance();
+                fragment.setArguments(bundle);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_layout, fragment);
+                transaction.commit();
             }
         });
         return view;

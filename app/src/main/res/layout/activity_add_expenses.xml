@@ -37,18 +37,18 @@
                 android:textSize="15sp"
                 android:id="@+id/toBeSharedText"/>
 
-            <EditText
+            <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Select Group"
-                android:textSize="15sp"
+                android:hint="Enter Group Name"
+                android:textSize="20sp"
                 android:id="@+id/selectGroupEdit"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter a description"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:id="@+id/descEdit"/>
 
             <LinearLayout
@@ -57,17 +57,17 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="$"
-                    android:textSize="15sp"
+                    android:textSize="20sp"
                     android:id="@+id/currency"/>
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter amount"
-                    android:textSize="15sp"
+                    android:textSize="20sp"
                     android:id="@+id/amountEdit"/>
             </LinearLayout>
 
@@ -80,14 +80,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Paid By"
-                    android:textSize="15sp"
+                    android:textSize="20sp"
                     android:id="@+id/paidByText"/>
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="You"
-                    android:textSize="15sp"
+                    android:textSize="20sp"
                     android:id="@+id/payerEdit"/>
             </LinearLayout>
 
@@ -95,7 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Split equally"
-                android:textSize="15sp"
+                android:textSize="20sp"
+                android:textAllCaps="false"
                 android:id="@+id/splitBtn"/>
 
         </LinearLayout>
