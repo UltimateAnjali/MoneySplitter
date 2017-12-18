@@ -64,6 +64,8 @@ public class GroupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle("Groups");
+
         View view = inflater.inflate(R.layout.fragment_group, container, false);
         recyclerView = (RecyclerView)view.findViewById(R.id.grpRecyclerView);
         nogrp = (TextView)view.findViewById(R.id.no_groups_text);

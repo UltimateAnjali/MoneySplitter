@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -33,12 +34,8 @@ public class SelectGroupForExpenses extends Fragment {
     private SelectGrpAdapter adapter;
     private ArrayList<GroupData> groupDataList = new ArrayList<GroupData>();
     private ArrayList<GroupData> finalList = new ArrayList<GroupData>();
-   // private TextView nogrp;
-    public UserData userData;
-    public GroupData groupData;
-    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
+    private TextView nogrp, title;
     private static final String TAG = "--SELECT--";
-    int loopControl = 0;
 
     public SelectGroupForExpenses() {
         // Required empty public constructor
@@ -52,15 +49,19 @@ public class SelectGroupForExpenses extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         adapter = new SelectGrpAdapter(getContext(),finalList);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle("Select Group");
+
         View view = inflater.inflate(R.layout.fragment_select_group_for_expenses, container, false);
         recyclerView = (RecyclerView)view.findViewById(R.id.selectGrpRecyclerView);
-        //nogrp = (TextView)view.findViewById(R.id.no_groups_textS);
+        nogrp = (TextView)view.findViewById(R.id.no_groups_textS);
+        title = (TextView)view.findViewById(R.id.titleForSelectGrp);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -69,12 +70,21 @@ public class SelectGroupForExpenses extends Fragment {
 
         Bundle extras = getArguments();
         if(extras!=null){
+            nogrp.setVisibility(View.GONE);
+            title.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+
             groupDataList = extras.getParcelableArrayList("myArray");
             //adapter.notifyDataSetChanged();
             for(int i=0;i<groupDataList.size();i++){
                 finalList.add(groupDataList.get(i));
                 adapter.notifyDataSetChanged();
             }
+        }
+        else {
+            nogrp.setVisibility(View.VISIBLE);
+            title.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
         }
 
         return view;
@@ -85,7 +95,6 @@ public class SelectGroupForExpenses extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
 
     }
 }

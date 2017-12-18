@@ -50,6 +50,8 @@ public class PersonOwingsFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle("People");
+
         View view = inflater.inflate(R.layout.fragment_person_owings, container, false);
         recyclerView = (RecyclerView)view.findViewById(R.id.persRecyclerView);
         noowings = (TextView)view.findViewById(R.id.no_owings_text);

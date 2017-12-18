@@ -49,6 +49,8 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle("Profile");
+
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         imageView = (ImageView)view.findViewById(R.id.profile_image);
         username = (TextView)view.findViewById(R.id.user_name);
