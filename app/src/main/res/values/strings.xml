@@ -16,6 +16,12 @@
     <string name="group_table">groups</string>
     <string name="user_members">userMembers</string>
 
+    <string-array name="planets_array">
+        <item>Equally</item>
+        <item>Unequally</item>
+        <item>Percentage wise</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

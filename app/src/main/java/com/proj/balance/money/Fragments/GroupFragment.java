@@ -1,8 +1,6 @@
 package com.proj.balance.money.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -21,7 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.proj.balance.money.Activities.AddExpenses;
 import com.proj.balance.money.Adapters.GroupFragmentAdapter;
 import com.proj.balance.money.DataModels.GroupData;
 import com.proj.balance.money.DataModels.UserData;

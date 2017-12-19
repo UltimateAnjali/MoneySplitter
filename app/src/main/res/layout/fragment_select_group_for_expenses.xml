@@ -23,9 +23,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:textColor="@color/activeDot"
+            android:textColor="@color/sliderTextColor"
             android:text="Select a group to share your expenses with"
             android:id="@+id/titleForSelectGrp"
+            android:layout_margin="5dp"
             android:visibility="gone"/>
 
         <android.support.v7.widget.RecyclerView

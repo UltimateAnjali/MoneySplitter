@@ -1,8 +1,6 @@
 package com.proj.balance.money.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,7 +18,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.proj.balance.money.Activities.AddExpenses;
 import com.proj.balance.money.Adapters.PersonOwingsAdapter;
 import com.proj.balance.money.DataModels.UserData;
 import com.proj.balance.money.R;
@@ -37,7 +34,6 @@ public class PersonOwingsFragment extends Fragment{
     private TextView noowings;
     private static final String TAG = "--Person Fragment--";
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
-    FloatingActionButton floatingActionButton;
 
     public PersonOwingsFragment() {
     }
@@ -55,20 +51,12 @@ public class PersonOwingsFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_person_owings, container, false);
         recyclerView = (RecyclerView)view.findViewById(R.id.persRecyclerView);
         noowings = (TextView)view.findViewById(R.id.no_owings_text);
-        floatingActionButton = (FloatingActionButton)view.findViewById(R.id.fab);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),SelectGroupForExpenses.class);
-                startActivity(intent);
-            }
-        });
         return  view;
 
     }
@@ -95,14 +83,14 @@ public class PersonOwingsFragment extends Fragment{
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.hasChild(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                     noowings.setVisibility(View.GONE);
-                    floatingActionButton.setVisibility(View.VISIBLE);
+
                     recyclerView.setVisibility(View.VISIBLE);
                     getMembersData();
                 }
                 else {
                     noowings.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
-                    floatingActionButton.setVisibility(View.GONE);
+
                 }
             }
 

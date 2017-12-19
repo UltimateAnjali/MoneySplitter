@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +31,12 @@ public class SelectGrpAdapter extends RecyclerView.Adapter<SelectGrpAdapter.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView grpName;
+        public ImageView image;
 
         public MyViewHolder(View view) {
             super(view);
             grpName = (TextView)view.findViewById(R.id.selectGrpTv);
+            image = (ImageView)view.findViewById(R.id.justForFun);
         }
     }
 
@@ -54,6 +57,36 @@ public class SelectGrpAdapter extends RecyclerView.Adapter<SelectGrpAdapter.MyVi
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final GroupData grpData = groupDataList.get(position);
         holder.grpName.setText(grpData.getGrpName());
+
+        int posMod = position %10;
+        int imageResource;
+        switch (posMod){
+            case 0:
+            case 5:
+                imageResource = R.drawable.smile_emoji;
+                break;
+            case 1:
+            case 6:
+                imageResource = R.drawable.dude_emoji;
+                break;
+            case 2:
+            case 7:
+                imageResource = R.drawable.happy_emoji;
+                break;
+            case 3:
+            case 8:
+                imageResource = R.drawable.rich_emoji;
+                break;
+            case 4:
+            case 9:
+                imageResource = R.drawable.winking_emoji;
+                break;
+
+            default:
+                imageResource = R.drawable.happy_emoji;
+                break;
+        }
+        holder.image.setImageResource(imageResource);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

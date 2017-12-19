@@ -32,7 +32,8 @@
                     android:id="@+id/edit_user"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:text="E"/>
+                    android:text="E"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
             <TextView
@@ -41,7 +42,7 @@
                 android:text="Dummy Name"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorAccent"
                 android:layout_gravity="center"
                 android:id="@+id/user_name" />
 
@@ -49,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_email_tv"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/sliderTextColor"
                 android:text="Email: "
                 android:textStyle="bold"
                 android:textSize="15sp"
@@ -69,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_contact_tv"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/sliderTextColor"
                 android:text="Contact: "
                 android:textStyle="bold"
                 android:textSize="15sp"
@@ -93,7 +94,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="30dp"
                 android:id="@+id/save_changes"
-                android:text="Save"/>
+                android:text="Save"
+                android:visibility="gone"/>
 
         </LinearLayout>
     </ScrollView>

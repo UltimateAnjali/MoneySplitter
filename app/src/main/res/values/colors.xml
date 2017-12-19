@@ -6,6 +6,7 @@
     <color name="activeDot">#757575</color>
     <color name="inactiveDot">#9A9A9A</color>
     <color name="backgroundColor">#ECECEC</color>
+    <color name="bottomNav">#F5F5F5</color>
     <color name="appNameTextColor">#D84315</color>
     <color name="googleColor">#d34836</color>
     <color name="sliderTitleColor">#263238</color>

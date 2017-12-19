@@ -32,9 +32,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
-        app:itemIconTint="@color/tintColor"
-        app:itemTextColor="@color/tintColor"
+        android:background="@color/bottomNav"
+        android:elevation="3dp"
+        app:itemIconTint="@drawable/bottom_nav_colors"
+        app:itemTextColor="@drawable/bottom_nav_colors"
         app:menu="@menu/bottom_navigation_items"/>
 
 </RelativeLayout>
