@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MoneySplitter.iml" filepath="$PROJECT_DIR$/MoneySplitter.iml" />
+      <module fileurl="file://C:\Users\ANJU-PC\Downloads\MoneySplitterupdate\MoneySplitter.iml" filepath="C:\Users\ANJU-PC\Downloads\MoneySplitterupdate\MoneySplitter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MoneySplitterupdate.iml" filepath="$PROJECT_DIR$/MoneySplitterupdate.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\ANJU-PC\Downloads\MoneySplitterupdate\app\app.iml" filepath="C:\Users\ANJU-PC\Downloads\MoneySplitterupdate\app\app.iml" />
     </modules>
   </component>
 </project>

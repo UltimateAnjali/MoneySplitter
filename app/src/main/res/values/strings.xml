@@ -15,6 +15,8 @@
     <string name="user_table">users</string>
     <string name="group_table">groups</string>
     <string name="user_members">userMembers</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 
     <string-array name="planets_array">
         <item>Equally</item>

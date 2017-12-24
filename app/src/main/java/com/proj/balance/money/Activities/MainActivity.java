@@ -4,8 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -23,10 +27,12 @@ import com.proj.balance.money.Fragments.PersonOwingsFragment;
 import com.proj.balance.money.Fragments.ProfileFragment;
 import com.proj.balance.money.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     private GoogleApiClient mGoogleApiClient;
-
+    private ActionBarDrawerToggle myDrawerToggle;
+    private NavigationView mynavigationview;
+    private DrawerLayout myDrawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +43,42 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
+        DrawerLayout myDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        myDrawerToggle = new ActionBarDrawerToggle(this, myDrawerLayout, R.string.open, R.string.close);
+        myDrawerLayout.addDrawerListener(myDrawerToggle);
+        myDrawerToggle.syncState();
+        mynavigationview=(NavigationView) findViewById(R.id.nav_view);
+        mynavigationview.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+
+                    case R.id.action_create_group: {
+                        Intent intent = new Intent(getApplicationContext(), CreateGroup.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    }
+                    case R.id.action_sign_out: {
+                        signOut();
+                        break;
+                    }
+                }
+
+                return false;
+            }
+        });
+
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment selectedFragment = null;
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.groups:
                         selectedFragment = GroupFragment.newInstance();
                         break;
@@ -63,29 +99,16 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.frame_layout, GroupFragment.newInstance());
         transaction.commit();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu_items,menu);
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_create_group: {
-                Intent intent = new Intent(getApplicationContext(), CreateGroup.class);
-                startActivity(intent);
-                finish();
-                break;
-            }
-            case R.id.action_sign_out: {
-                signOut();
-                break;
-            }
+        if (myDrawerToggle.onOptionsItemSelected(item)) {
+
+
+            return true;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     protected void onStart() {
