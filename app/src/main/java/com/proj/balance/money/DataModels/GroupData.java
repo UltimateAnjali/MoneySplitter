@@ -18,7 +18,7 @@ public class GroupData implements Parcelable{
     public String grpType;
     public String grpAdmin;
     public String grpKey;
-    HashMap<String,Boolean> members = new HashMap<>();
+    HashMap<String,String> members = new HashMap<>();
 
     public GroupData(){
     }
@@ -55,7 +55,7 @@ public class GroupData implements Parcelable{
 
     public void setGrpKey(String grpKey) { this.grpKey = grpKey; }
 
-    public void setMembers(HashMap<String, Boolean> members) {
+    public void setMembers(HashMap<String, String> members) {
         this.members = members;
     }
 
@@ -74,7 +74,7 @@ public class GroupData implements Parcelable{
 
     public String getGrpKey() { return grpKey; }
 
-    public HashMap<String, Boolean> getMembers() {
+    public HashMap<String, String> getMembers() {
         return members;
     }
 

@@ -52,13 +52,16 @@ public class AddMembers extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     AddMembersData data;
     String temp;
-    int xy;
     int size;
     int loopCount=0;
+    int userMemberCount = 0;
     private String groupName, groupType;
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
     public UserData mUserData;
+    public UserData currentUserData;
     public GroupData groupData;
+    String currentUserContactNumber;
+    HashMap<String,String> connectedUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class AddMembers extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+        //Get the group name and group type
         Bundle myBundle = getIntent().getExtras();
         if(myBundle!=null){
             groupName = myBundle.getString("grpName");
@@ -77,6 +81,25 @@ public class AddMembers extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Error",Toast.LENGTH_LONG).show();
         }
 
+        Query query = dbref
+                .child(getString(R.string.db_name))
+                .child(getString(R.string.user_table))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    currentUserData = dataSnapshot.getValue(UserData.class);
+                    currentUserContactNumber = currentUserData.getUserContact();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         progressBar = (ProgressBar)findViewById(R.id.progress_bar);
 
@@ -85,7 +108,6 @@ public class AddMembers extends AppCompatActivity {
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
-        //recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(membersAdapter);
 
@@ -128,7 +150,7 @@ public class AddMembers extends AppCompatActivity {
                     .getContentResolver()
                     .query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
         } catch (SecurityException e) {
-            //SecurityException can be thrown if we don't have the right permissions
+            Toast.makeText(getApplicationContext(),"Permissions needed",Toast.LENGTH_SHORT).show();
         }
 
         if (cursor != null) {
@@ -200,25 +222,27 @@ public class AddMembers extends AppCompatActivity {
                     for(DataSnapshot contact:dataSnapshot.getChildren()){
 
                         UserData userData = contact.getValue(UserData.class);
+                        if(userData.getUserContact().equals(currentUserContactNumber)){
 
-                        data = new AddMembersData(checkDataList.get(loopCount).getPersonName(),
-                                userData.getUserContact(),
-                                checkDataList.get(loopCount).getAdded());
-                        data.setKey(userData.getFirebaseUid());
-                        membersDataList.add(data);
-                        membersAdapter.notifyDataSetChanged();
+                        }
+                        else {
+                            data = new AddMembersData(checkDataList.get(loopCount).getPersonName(),
+                                    userData.getUserContact(),
+                                    checkDataList.get(loopCount).getAdded());
+                            data.setKey(userData.getFirebaseUid());
+                            membersDataList.add(data);
+                            membersAdapter.notifyDataSetChanged();
+                        }
+
                         if(LoopHandling())
                         {
                             break;
                         }
-                       // Toast.makeText(getApplicationContext(),"aai gayu"+membersDataList.get(0).getPersonName(),Toast.LENGTH_LONG).show();
-                        System.out.println("------------>membersDataList "+membersDataList.get(0).getPersonName());
+                        //System.out.println("------------>membersDataList "+membersDataList.get(0).getPersonName());
                     }
                 }
                 else {
                    LoopHandling();
-//                    data = new AddMembersData("Anjali","xxx");
-//                    membersDataList.add(data);
                 }
             }
 
@@ -227,7 +251,6 @@ public class AddMembers extends AppCompatActivity {
 
             }
         });
-
     }
 
     private boolean LoopHandling() {
@@ -250,7 +273,10 @@ public class AddMembers extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Query query = dbref.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Query query = dbref
+                .child(getString(R.string.db_name))
+                .child(getString(R.string.user_table))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -274,17 +300,23 @@ public class AddMembers extends AppCompatActivity {
 
     private void putAllGroupData() {
         groupData = new GroupData();
-        DatabaseReference mQuery = dbref.child("moneySplit").child("groups").push();
+
+        final DatabaseReference mQuery = dbref.child("moneySplit").child("groups").push();
+
         mSelectedMembers = membersAdapter.selectedMembers;
-        final HashMap<String,Boolean> members = new HashMap<>();
+        mSelectedMembers.add(currentUserData.getFirebaseUid());
 
-        for(int cnt=0;cnt<mSelectedMembers.size();cnt++){
-            members.put(mSelectedMembers.get(cnt),true);
+        final HashMap<String,String> members = new HashMap<>();
+
+        for(int cnt = 0; cnt < mSelectedMembers.size(); cnt ++){
+            members.put(mSelectedMembers.get(cnt),"0.00");
         }
+       // members.put(currentUserData.getFirebaseUid(),"0.00");
 
-        for(int memberCnt = 0; memberCnt < mSelectedMembers.size(); memberCnt++){
+        for(int memberCnt = 0; memberCnt < mSelectedMembers.size(); memberCnt ++){
             addGrpKeyInUserData(mQuery.getKey().toString(),mSelectedMembers.get(memberCnt));
         }
+        //addGrpKeyInUserData(mQuery.getKey().toString(),currentUserData.getFirebaseUid());
 
         //Toast.makeText(getApplicationContext(),"an"+mUserData.getUserGivenName(),Toast.LENGTH_SHORT).show();
         groupData.setGrpAdmin(mUserData.getFirebaseUid());
@@ -296,81 +328,137 @@ public class AddMembers extends AppCompatActivity {
         mQuery.setValue(groupData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                //mQuery.child("members").child(groupData.getGrpAdmin()).setValue("0.00");
                 if (members!=null){
+//                    DatabaseReference refg = dbref.child(getString(R.string.db_name))
+//                            .child(getString(R.string.user_members));
+//                    refg.push();
+//
+//                    String userConnectionKey = refg.getKey();
                     putUserMembers(members);
                 }
-
-
             }
         });
     }
 
     private void addGrpKeyInUserData(String grpKey,String userKey) {
-        final DatabaseReference ref = dbref.child("moneySplit").child("users").child(userKey).child("groups");
-        ref.child(grpKey).setValue(true);
+        final DatabaseReference ref = dbref
+                .child(getString(R.string.db_name))
+                .child(getString(R.string.user_table))
+                .child(userKey)
+                .child("groups");
+        ref.child(grpKey).setValue("0.00");
     }
 
-    private void putUserMembers(final HashMap<String, Boolean> members) {
-        final ArrayList<String> databaseMembers = new ArrayList<>();
-        ArrayList<String> mUserMembers = new ArrayList<>();
+    private void putUserMembers(final HashMap<String,String> members) {
 
-        final DatabaseReference myref = dbref
-                .child(getString(R.string.db_name))
-                .child(getString(R.string.user_members))
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        Query query2 = myref;
-        query2.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    for(DataSnapshot memberSnapshot: dataSnapshot.getChildren()){
-                        databaseMembers.add(memberSnapshot.getKey());
+        final HashMap<String,String> newMemberSet = new HashMap<>();
+        if(mSelectedMembers.get(userMemberCount)!=null){
+            try{
+                connectedUsers = new HashMap<>();
+                final DatabaseReference refh = dbref.child(getString(R.string.db_name))
+                        .child(getString(R.string.user_members))
+                        .child(mSelectedMembers.get(userMemberCount));
+                refh.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+
+                            for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                                connectedUsers.put(snapshot.getKey(), (String) snapshot.getValue());
+                            }
+                        }
+
+                        else if(!dataSnapshot.exists()){
+                            for (String key: members.keySet()){
+                                if(key.equals(mSelectedMembers.get(userMemberCount))){
+
+                                }
+                                else{
+                                    newMemberSet.put(key,members.get(key));
+                                }
+                            }
+                            refh.setValue(newMemberSet);
+                        }
                     }
-                    //Toast.makeText(getApplicationContext(),"Exists",Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    myref.setValue(members);
-                    //Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                    }
+                });
 
-        if(databaseMembers!=null){
-            for (int cnt=0;cnt<mSelectedMembers.size();cnt++){
-                if (!databaseMembers.contains(mSelectedMembers.get(cnt))){
-                    databaseMembers.add(mSelectedMembers.get(cnt));
-                    DatabaseReference dbref1 = dbref.child(getString(R.string.db_name))
-                            .child(getString(R.string.user_members))
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    dbref1.child(mSelectedMembers.get(cnt)).setValue(true);
+                if(connectedUsers!=null){
+                    for(int conn = 0; conn < mSelectedMembers.size() ; conn++){
+                        if(connectedUsers.containsKey(mSelectedMembers.get(conn))){
+                        }
+
+                        else if(mSelectedMembers.get(conn).equals(mSelectedMembers.get(userMemberCount))){
+                        }
+
+                        else {
+                            connectedUsers.put(mSelectedMembers.get(conn),"0.00");
+                            refh.child(mSelectedMembers.get(conn)).setValue("0.00");
+                        }
+                    }
                 }
+
+
+            }catch (Exception e){
+                Toast.makeText(getApplicationContext(),"Error Occured",Toast.LENGTH_SHORT).show();
             }
         }
 
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
-                finish();
-//        myref.setValue(members).addOnSuccessListener(new OnSuccessListener<Void>() {
+        if(userMemberCount < mSelectedMembers.size() - 1){
+            userMemberCount++;
+            putUserMembers(members);
+        }
+        else {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+//        final ArrayList<String> databaseMembers = new ArrayList<>();
+//        final DatabaseReference myref = dbref
+//                .child(getString(R.string.db_name))
+//                .child(getString(R.string.user_members))
+//                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//        Query query2 = myref;
+//        query2.addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
-//            public void onSuccess(Void aVoid) {
-//                Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_SHORT).show();
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
+//                        databaseMembers.add(memberSnapshot.getKey());
+//                    }
+//                    //Toast.makeText(getApplicationContext(),"Exists",Toast.LENGTH_SHORT).show();
+//                } else {
+//                    myref.setValue(members);
+//                    //Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
 //            }
 //        });
+//
+//        if (databaseMembers != null) {
+//            for (int cnt = 0; cnt < mSelectedMembers.size(); cnt++) {
+//                if (!databaseMembers.contains(mSelectedMembers.get(cnt))) {
+//                    databaseMembers.add(mSelectedMembers.get(cnt));
+//                    DatabaseReference dbref1 = dbref.child(getString(R.string.db_name))
+//                            .child(getString(R.string.user_members))
+//                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                    dbref1.child(mSelectedMembers.get(cnt)).setValue("0.00");
+//                }
+//            }
+//        }
+
+
+
+
     }
-
-
-
-//    @Override
-//    public void onBackPressed() {
-//        Intent intent = new Intent(getApplicationContext(),CreateGroup.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("grpkey",grpKey);
-//        intent.putExtras(bundle);
-//        startActivity(intent);
-//    }
 }

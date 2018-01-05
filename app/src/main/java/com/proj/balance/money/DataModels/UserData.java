@@ -18,9 +18,10 @@ public class UserData implements Serializable {
     public String userId;
     public String userPhoto;
     public String firebaseUid;
-    public HashMap<String,Boolean> groups = new HashMap<>();
+    public HashMap<String,String> groups = new HashMap<>();
     public String userContact;
     public Boolean dataflag;
+ //   public String connectedUsers;
 
 
     public UserData(){
@@ -61,12 +62,13 @@ public class UserData implements Serializable {
 
     public void setFirebaseUid(String firebaseUid) {this.firebaseUid = firebaseUid;}
 
-    public void setGroups(HashMap<String, Boolean> groups) {this.groups = groups;}
+    public void setGroups(HashMap<String, String> groups) {this.groups = groups;}
 
     public void setUserContact(String userContact) {this.userContact = userContact;}
 
     public void setDataflag(Boolean dataflag) {this.dataflag = dataflag;}
-
+//
+//    public void setConnectedUsers(String memberConnections) { this.connectedUsers = memberConnections; }
 
     //Getters
     public String getUserName(){
@@ -99,5 +101,7 @@ public class UserData implements Serializable {
 
     public String getFirebaseUid() {return firebaseUid;}
 
-    public HashMap<String, Boolean> getGroups() {return groups;}
+//    public String getConnectedUsers() { return connectedUsers; }
+
+    public HashMap<String, String> getGroups() {return groups;}
 }

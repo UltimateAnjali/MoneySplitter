@@ -27,7 +27,7 @@ public class SelectGrpAdapter extends RecyclerView.Adapter<SelectGrpAdapter.MyVi
 
     private Context mContext;
     private List<GroupData> groupDataList;
-    public static GroupData selectedGrp;
+    public GroupData selectedGrp;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView grpName;
@@ -92,9 +92,9 @@ public class SelectGrpAdapter extends RecyclerView.Adapter<SelectGrpAdapter.MyVi
             @Override
             public void onClick(View view) {
                 selectedGrp = grpData;
-                Toast.makeText(mContext,selectedGrp.grpName,Toast.LENGTH_SHORT).show();
+               // Toast.makeText(mContext,selectedGrp.grpName,Toast.LENGTH_SHORT).show();
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("lol",selectedGrp);
+                bundle.putParcelable("selectedGrp",selectedGrp);
                 Fragment fragment = AddModifications.newInstance();
                 FragmentTransaction transaction = ((MainActivity)mContext).getSupportFragmentManager().beginTransaction();
                 fragment.setArguments(bundle);

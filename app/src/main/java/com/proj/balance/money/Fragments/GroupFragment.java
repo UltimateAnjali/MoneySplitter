@@ -21,24 +21,30 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.proj.balance.money.Adapters.GroupFragmentAdapter;
 import com.proj.balance.money.DataModels.GroupData;
+import com.proj.balance.money.DataModels.GroupOwingsData;
 import com.proj.balance.money.DataModels.UserData;
 import com.proj.balance.money.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GroupFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private ArrayList<GroupData> groupDataList = new ArrayList<GroupData>();
+    private ArrayList<GroupOwingsData> groupOwingDataList = new ArrayList<>();
+    private ArrayList<GroupData> grpDataList = new ArrayList<>();
     private List<String> grpKeys = new ArrayList<>();
     private GroupFragmentAdapter adapter;
     private TextView nogrp;
     public UserData userData;
     public GroupData groupData;
+    public GroupOwingsData grpOwings56;
+    HashMap<String, String> tempHash = new HashMap<>();
     private static final String TAG = "--Group Fragment--";
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
     int loopControl = 0;
+    int count = 0;
     FloatingActionButton floatingActionButton;
 
     public GroupFragment() {
@@ -52,8 +58,8 @@ public class GroupFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //groupDataList = new ArrayList<>();
-        adapter = new GroupFragmentAdapter(getContext(),groupDataList);
+
+        adapter = new GroupFragmentAdapter(getContext(),groupOwingDataList);
 
         prepareGroupData();
     }
@@ -76,13 +82,10 @@ public class GroupFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(),SelectGroupForExpenses.class);
-//                startActivity(intent);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("myArray", groupDataList);
 
-                Fragment fragment = new Fragment();
-                fragment = SelectGroupForExpenses.newInstance();
+                Fragment fragment = SelectGroupForExpenses.newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("myArray", grpDataList);
                 fragment.setArguments(bundle);
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.frame_layout, fragment);
@@ -105,16 +108,12 @@ public class GroupFragment extends Fragment {
                     userData = dataSnapshot.getValue(UserData.class);
 
                     for(String key:userData.getGroups().keySet()){
-                        //Toast.makeText(getContext(),""+key,Toast.LENGTH_SHORT).show();
                         grpKeys.add(key);
-                        //getGroupData(key);
                     }
 
-                    if(grpKeys.size()>=1){
+                    if(grpKeys.size() >= 1){
                         getGroupData();
                     }
-
-                    //Toast.makeText(getContext(),"Has"+UserData.groups,Toast.LENGTH_SHORT).show();
                 }
                 else{
                     nogrp.setVisibility(View.VISIBLE);
@@ -141,9 +140,16 @@ public class GroupFragment extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
                         groupData = dataSnapshot.getValue(GroupData.class);
-                        //Toast.makeText(getContext(),"Ghel Ghaghrina"+groupData.getGrpName(),Toast.LENGTH_SHORT).show();
-                        groupDataList.add(groupData);
-                        //Toast.makeText(getContext(),"Ghel Ghaghrina"+groupDataList.size(),Toast.LENGTH_SHORT).show();
+                        grpOwings56 = new GroupOwingsData();
+
+                        grpOwings56.setGrpName(groupData.getGrpName());
+                        grpOwings56.setGrpType(groupData.getGrpType());
+                        grpOwings56.setGrpKey(groupData.getGrpKey());
+                        grpOwings56.setGrpOwing(userData.getGroups().get(groupData.getGrpKey()));
+
+                        groupOwingDataList.add(grpOwings56);
+                        grpDataList.add(groupData);
+
                         adapter.notifyDataSetChanged();
                         if(loopControl < grpKeys.size()-1){
                             loopControl++;
