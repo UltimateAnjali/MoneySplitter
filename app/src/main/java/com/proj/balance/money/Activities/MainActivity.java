@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity  {
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
         DrawerLayout myDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         myDrawerToggle = new ActionBarDrawerToggle(this, myDrawerLayout, R.string.open, R.string.close);
         myDrawerLayout.addDrawerListener(myDrawerToggle);
         myDrawerToggle.syncState();
