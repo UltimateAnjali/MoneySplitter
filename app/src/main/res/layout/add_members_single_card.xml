@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dummy Name"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/appNameTextColor"
                     android:textSize="16sp" />
 
                 <TextView
@@ -41,6 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="1234567890"
+                    android:textColor="@color/sliderTextColor"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -66,7 +67,7 @@
                     android:gravity="center"
                     android:text="Added"
                     android:textSize="15sp"
-                    android:textColor="@color/activeDot"
+                    android:textColor="@color/sliderTextColor"
                     android:visibility="gone" />
             </FrameLayout>
         </LinearLayout>

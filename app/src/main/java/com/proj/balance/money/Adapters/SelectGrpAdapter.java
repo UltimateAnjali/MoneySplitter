@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.proj.balance.money.Activities.MainActivity;
 import com.proj.balance.money.DataModels.GroupData;
 import com.proj.balance.money.Fragments.AddModifications;
+import com.proj.balance.money.MyFonts;
 import com.proj.balance.money.R;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class SelectGrpAdapter extends RecyclerView.Adapter<SelectGrpAdapter.MyVi
     private Context mContext;
     private List<GroupData> groupDataList;
     public GroupData selectedGrp;
+    MyFonts fontFace;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView grpName;
@@ -55,6 +57,8 @@ public class SelectGrpAdapter extends RecyclerView.Adapter<SelectGrpAdapter.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        fontFace = new MyFonts(mContext);
+        holder.grpName.setTypeface(fontFace.getVolk());
         final GroupData grpData = groupDataList.get(position);
         holder.grpName.setText(grpData.getGrpName());
 

@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.proj.balance.money.Adapters.SelectGrpAdapter;
 import com.proj.balance.money.DataModels.GroupData;
 import com.proj.balance.money.DataModels.UserData;
+import com.proj.balance.money.MyFonts;
 import com.proj.balance.money.R;
 
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ public class SelectGroupForExpenses extends Fragment {
     private ArrayList<GroupData> finalList = new ArrayList<GroupData>();
     private TextView nogrp, title;
     private static final String TAG = "--SELECT--";
+
+    MyFonts fontFace;
 
     public SelectGroupForExpenses() {
         // Required empty public constructor
@@ -62,6 +65,9 @@ public class SelectGroupForExpenses extends Fragment {
         recyclerView = (RecyclerView)view.findViewById(R.id.selectGrpRecyclerView);
         nogrp = (TextView)view.findViewById(R.id.no_groups_textS);
         title = (TextView)view.findViewById(R.id.titleForSelectGrp);
+
+        fontFace = new MyFonts(getContext());
+        title.setTypeface(fontFace.getMont());
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);

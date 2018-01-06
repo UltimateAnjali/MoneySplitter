@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.proj.balance.money.DataModels.BillsData;
 import com.proj.balance.money.DataModels.GroupData;
 import com.proj.balance.money.DataModels.UserData;
+import com.proj.balance.money.MyFonts;
 import com.proj.balance.money.R;
 
 import java.text.NumberFormat;
@@ -46,11 +47,13 @@ public class AddModifications extends Fragment {
     GroupData grp;
     UserData userData;
     BillsData currentBill;
+    MyFonts fontFace;
 
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
     HashMap<String,String> userNameKeys = new HashMap<>();
     HashMap<String,String> memberBillSplit = new HashMap<>();
+    HashMap<String, String> newGrpMemberSet = new HashMap<>();
     List<String> userKeys = new ArrayList<>();
     List<String> names = new ArrayList<>();
     ArrayAdapter<String> payerAdapter;
@@ -62,6 +65,7 @@ public class AddModifications extends Fragment {
     int loopCount = 0;
     int userCount = 0;
     int userMemberCount = 0;
+    int grpMemberCnt = 0;
 
     public AddModifications() {
         // Required empty public constructor
@@ -147,6 +151,13 @@ public class AddModifications extends Fragment {
         splitAmtText = (TextView)view.findViewById(R.id.splitText);
         splitSpinner = (Spinner)view.findViewById(R.id.splitSpinner);
         right = (FloatingActionButton)view.findViewById(R.id.fabRightArrow);
+
+        fontFace = new MyFonts(getContext());
+        grpNameText.setTypeface(fontFace.getMerri());
+        desc.setTypeface(fontFace.getMont());
+        amt.setTypeface(fontFace.getMont());
+        paidBy.setTypeface(fontFace.getMerri());
+        splitAmtText.setTypeface(fontFace.getMerri());
 
         //Setting the group name
         grpNameText.setText("Group: "+grp.getGrpName());
@@ -596,6 +607,90 @@ public class AddModifications extends Fragment {
                 userMemberCount++;
                 updateDataInUserMembers(payerShare,othersShare);
             }
+            else{
+                updateDataInGroups(payerShare,othersShare);
+            }
         }
+    }
+
+    private void updateDataInGroups(String payerShare, String othersShare){
+        for(String key: grp.getMembers().keySet()){
+            if(key.equals(selectedPayerKey)){
+                String value = grp.getMembers().get(key);
+                if(value.equals("0.00")){
+                    newGrpMemberSet.put(key,"+"+payerShare);
+                }
+                else{
+                    String sign = value.substring(0,1);
+                    String amount = value.substring(1);
+                    Double cal = 0.00;
+                    NumberFormat formatter11 = NumberFormat.getNumberInstance();
+                    formatter11.setMaximumFractionDigits(2);
+                    formatter11.setMinimumFractionDigits(2);
+                    String calValue;
+                    if(sign.equals("+")){
+                        cal = Double.parseDouble(amount) + Double.parseDouble(payerShare);
+                    }
+                    else if(sign.equals("-")){
+                        cal = - Double.parseDouble(amount) + Double.parseDouble(payerShare);
+                    }
+                    calValue = formatter11.format(cal);
+                    if(Double.parseDouble(calValue) > 0.00){
+                        newGrpMemberSet.put(key,"+"+calValue);
+                    }
+                    else if(Double.parseDouble(calValue) < 0.00){
+                        newGrpMemberSet.put(key,calValue);
+                    }
+                    else if(Double.parseDouble(calValue) == 0.00){
+                        newGrpMemberSet.put(key,"0.00");
+                    }
+                }
+            }
+            else{
+                String value = grp.getMembers().get(key);
+                if(value.equals("0.00")){
+                    newGrpMemberSet.put(key,"-"+othersShare);
+                }
+                else{
+                    String sign = value.substring(0,1);
+                    String amount = value.substring(1);
+                    Double cal = 0.00;
+                    NumberFormat formatter11 = NumberFormat.getNumberInstance();
+                    formatter11.setMaximumFractionDigits(2);
+                    formatter11.setMinimumFractionDigits(2);
+                    String calValue;
+                    if(sign.equals("+")){
+                        cal = Double.parseDouble(amount) - Double.parseDouble(othersShare);
+                    }
+                    else if(sign.equals("-")){
+                        cal = - Double.parseDouble(amount) - Double.parseDouble(othersShare);
+                    }
+                    calValue = formatter11.format(cal);
+                    if(Double.parseDouble(calValue) > 0.00){
+                        newGrpMemberSet.put(key,"+"+calValue);
+                    }
+                    else if(Double.parseDouble(calValue) < 0.00){
+                        newGrpMemberSet.put(key,calValue);
+                    }
+                    else if(Double.parseDouble(calValue) == 0.00){
+                        newGrpMemberSet.put(key,"0.00");
+                    }
+                }
+            }
+            //Toast.makeText(getContext(),key +"->"+ newGrpMemberSet.get(key).toString(),Toast.LENGTH_SHORT).show();
+        }
+
+        DatabaseReference dbref11 = dbref.child(getString(R.string.db_name))
+                .child(getString(R.string.group_table))
+                .child(grp.getGrpKey());
+        dbref11.child("members").setValue(newGrpMemberSet).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Fragment fragment = GroupFragment.newInstance();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_layout, fragment);
+                transaction.commit();
+            }
+        });
     }
 }

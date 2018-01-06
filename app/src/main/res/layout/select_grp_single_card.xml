@@ -33,7 +33,7 @@
                 android:layout_marginLeft="3dp"
                 android:padding="5dp"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/appNameTextColor"/>
 
         </LinearLayout>
 

@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:hint="Enter Group Name"
+        android:textColorHint="@color/sliderTextColor"
         android:padding="15dp"
         android:layout_margin="10dp"
         android:textSize="20sp"

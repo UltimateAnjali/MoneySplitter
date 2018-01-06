@@ -22,11 +22,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/sliderTextColor"
+            android:textSize="18sp"
+            android:textColor="@color/sliderTitleColor"
             android:text="Select a group to share your expenses with"
             android:id="@+id/titleForSelectGrp"
-            android:layout_margin="5dp"
+            android:layout_margin="8dp"
+            android:gravity="center"
             android:visibility="gone"/>
 
         <android.support.v7.widget.RecyclerView

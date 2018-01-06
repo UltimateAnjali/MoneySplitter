@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.proj.balance.money.DataModels.AddMembersData;
+import com.proj.balance.money.MyFonts;
 import com.proj.balance.money.R;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.My
     private Context mContext;
     private List<AddMembersData> memberList;
     public List<String> selectedMembers = new ArrayList<>();
+    MyFonts fontFace;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView personName, contact, addedText;
@@ -59,10 +61,12 @@ public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.My
         final AddMembersData membersData = memberList.get(position);
 
         TextDrawable drawable = TextDrawable.builder()
-                .buildRound(String.valueOf(membersData.getPersonName().charAt(0)), R.color.loginBtnRipple);
+                .buildRound(String.valueOf(membersData.getPersonName().charAt(0)), mContext.getResources().getColor(R.color.letterColor));
         //ImageView image = (ImageView) findViewById(R.id.image_view);
         holder.personImage.setImageDrawable(drawable);
 
+        fontFace = new MyFonts(mContext);
+        holder.personName.setTypeface(fontFace.getVolk());
         holder.personName.setText(membersData.getPersonName());
         holder.contact.setText(membersData.getContactNum());
 

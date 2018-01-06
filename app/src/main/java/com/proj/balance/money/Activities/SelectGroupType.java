@@ -36,7 +36,13 @@ public class SelectGroupType extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 groupType = adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(getApplicationContext(),groupType,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),AddMembers.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("grpName",groupName);
+                bundle.putString("grpType",groupType);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
             }
         });
     }

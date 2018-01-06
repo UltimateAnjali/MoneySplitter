@@ -186,12 +186,11 @@ public class AddMembers extends AppCompatActivity {
 
             } finally {
                 cursor.close();
-
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
         }
         membersAdapter.notifyDataSetChanged();
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
     }
 
     private String updatedNumber(String contact) {

@@ -31,12 +31,16 @@
                 android:layout_marginRight="5dp"
                 android:textSize="18sp"
                 android:text="Group: "
+                android:textColor="@color/appNameTextColor"
                 android:id="@+id/grpNameTextView"/>
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter Description"
+                android:textColorHint="@color/sliderTextColor"
                 android:id="@+id/enterDescEdit"
+                android:textColor="@color/sliderTitleColor"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"/>
@@ -59,6 +63,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter amount"
+                    android:textColorHint="@color/sliderTextColor"
+                    android:textColor="@color/sliderTitleColor"
                     android:inputType="numberDecimal"
                     android:id="@+id/enterAmtEdit" />
             </LinearLayout>
@@ -67,11 +73,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Paid By"
-                android:background="@color/inactiveDot"
+                android:background="@color/appNameTextColor"
                 android:textSize="15sp"
-                android:textColor="@color/tintColor"
+                android:textColor="@color/backgroundColor"
                 android:id="@+id/paidByText"
                 android:paddingLeft="5dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
                 android:layout_marginBottom="10dp"/>
 
             <Spinner
@@ -86,11 +94,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Split the amount"
-                android:background="@color/inactiveDot"
+                android:background="@color/appNameTextColor"
                 android:textSize="15sp"
-                android:textColor="@color/tintColor"
+                android:textColor="@color/backgroundColor"
                 android:id="@+id/splitText"
                 android:paddingLeft="5dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
                 android:layout_marginBottom="10dp"/>
 
             <Spinner
@@ -100,8 +110,6 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp" />
-
-
 
         </LinearLayout>
     </ScrollView>
