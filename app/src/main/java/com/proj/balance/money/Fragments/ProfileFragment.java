@@ -3,6 +3,7 @@ package com.proj.balance.money.Fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,17 +22,19 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.proj.balance.money.CircleTransform;
 import com.proj.balance.money.DataModels.UserData;
+import com.proj.balance.money.MyFonts;
 import com.proj.balance.money.R;
 import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends Fragment {
 
     ImageView imageView;
-    TextView username;
+    TextView username, userEmailText, userContactText;
     EditText useremail, userContact;
     Button edit, save;
     DatabaseReference dbref;
     UserData userData;
+    MyFonts fontFace;
 
     public ProfileFragment() {
     }
@@ -54,11 +57,20 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         imageView = (ImageView)view.findViewById(R.id.profile_image);
         username = (TextView)view.findViewById(R.id.user_name);
+        userEmailText = (TextView)view.findViewById(R.id.user_email_tv);
+        userContactText = (TextView)view.findViewById(R.id.user_contact_tv);
         useremail = (EditText) view.findViewById(R.id.user_email);
         userContact = (EditText)view.findViewById(R.id.user_contact);
         edit = (Button)view.findViewById(R.id.edit_user);
         save = (Button)view.findViewById(R.id.save_changes);
-//
+
+        fontFace = new MyFonts(getContext());
+        username.setTypeface(fontFace.getMerri());
+        userEmailText.setTypeface(fontFace.getVolk());
+        useremail.setTypeface(fontFace.getMont());
+        userContactText.setTypeface(fontFace.getVolk());
+        userContact.setTypeface(fontFace.getMont());
+
         Query query = dbref.child("moneySplit").child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -70,10 +82,11 @@ public class ProfileFragment extends Fragment {
                     userContact.setText(userData.getUserContact());
                     //user object for contact
                     Picasso.with(getContext())
-                            .load(Uri.parse(userData.getUserPhoto()))
+                            .load(Uri.parse(userData.getUserPhoto()+"?sz=500"))
                             .noFade()
                             .transform(new CircleTransform())
                             .into(imageView);
+                    Log.e("Image","---->"+userData.getUserPhoto().toString());
                 }
                 else {
                     Toast.makeText(getContext(),"An error occured",Toast.LENGTH_SHORT).show();

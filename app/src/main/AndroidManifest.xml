@@ -22,11 +22,12 @@
         </activity>
         <activity
             android:name=".Activities.CreateGroup"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/MyTheme"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".Activities.MainActivity"
             android:theme="@style/MyTheme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activities.ContactInfo"
             android:theme="@style/MyTheme" />
@@ -35,6 +36,8 @@
             android:theme="@style/MyTheme" />
         <activity
             android:name=".Activities.AddMembers"
+            android:theme="@style/MyTheme" />
+        <activity android:name=".Activities.SelectGroupType"
             android:theme="@style/MyTheme" />
     </application>
 

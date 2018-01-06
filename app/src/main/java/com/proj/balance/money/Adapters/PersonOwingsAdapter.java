@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.proj.balance.money.DataModels.UserMembersData;
+import com.proj.balance.money.MyFonts;
 import com.proj.balance.money.R;
 import com.proj.balance.money.DataModels.UserData;
 
@@ -21,6 +22,7 @@ public class PersonOwingsAdapter extends RecyclerView.Adapter<PersonOwingsAdapte
 
     private Context mContext;
     private List<UserMembersData> userDataList;
+    MyFonts fontFace;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView personName, owing, owesTextDisplay;
@@ -48,6 +50,12 @@ public class PersonOwingsAdapter extends RecyclerView.Adapter<PersonOwingsAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+
+        //Binding font family for the person name
+        fontFace = new MyFonts(mContext);
+        holder.personName.setTypeface(fontFace.getMerri());
+        holder.owesTextDisplay.setTypeface(fontFace.getMerri());
+
         UserMembersData userData = userDataList.get(position);
         holder.personName.setText(userData.getUserName());
 
@@ -63,14 +71,14 @@ public class PersonOwingsAdapter extends RecyclerView.Adapter<PersonOwingsAdapte
             if(tempSign.equals("+")){
                 holder.owesTextDisplay.setText("You owe");
                 holder.owing.setText("$ "+owingAmount);
-                holder.owesTextDisplay.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
-                holder.owing.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                holder.owesTextDisplay.setTextColor(mContext.getResources().getColor(R.color.redOwing));
+                holder.owing.setTextColor(mContext.getResources().getColor(R.color.redOwing));
             }
             else if(tempSign.equals("-")){
                 holder.owesTextDisplay.setText("Owes you");
                 holder.owing.setText("$ "+owingAmount);
-                holder.owesTextDisplay.setTextColor(mContext.getResources().getColor(R.color.trial));
-                holder.owing.setTextColor(mContext.getResources().getColor(R.color.trial));
+                holder.owesTextDisplay.setTextColor(mContext.getResources().getColor(R.color.greenOwing));
+                holder.owing.setTextColor(mContext.getResources().getColor(R.color.greenOwing));
             }
         }
     }

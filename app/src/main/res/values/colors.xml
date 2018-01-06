@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3d73b5</color>
-    <color name="colorPrimaryDark">#004885</color>
-    <color name="colorAccent">#ff552f</color>
+    <color name="colorPrimary">#512DA8</color>
+    <color name="colorPrimaryDark">#311B92</color>
+    <color name="colorAccent">#ffa000</color>
+
+    <!--Login Page-->
     <color name="activeDot">#757575</color>
     <color name="inactiveDot">#9A9A9A</color>
-    <color name="backgroundColor">#ECECEC</color>
-    <color name="bottomNav">#F5F5F5</color>
-    <color name="appNameTextColor">#D84315</color>
+    <color name="appNameTextColor">#37474F</color>
+    <color name="sliderTitleColor">#455A64</color>
+    <color name="sliderTextColor">#607D8B</color>
     <color name="googleColor">#d34836</color>
-    <color name="sliderTitleColor">#263238</color>
-    <color name="sliderTextColor">#455A64</color>
+    <color name="googleRippleColor">#FF6E40</color>
+
+    <!--Other pages-->
     <color name="loginBtnBackground">#4285F4</color>
     <color name="loginBtnRipple">#42A5F5</color>
     <color name="tintColor">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
+    <color name="greenOwing">#00C853</color>
+    <color name="redOwing">#ff552f</color>
     <color name="trial">#66BB6A</color>
     <color name="trial2">#2E7D32</color>
     <color name="lol">#171558</color>
+
+    <color name="backgroundColor">#ECEFF1</color>
+    <color name="bottomNav">#F5F5F5</color>
 </resources>

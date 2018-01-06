@@ -42,18 +42,20 @@
                 android:text="Dummy Name"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/appNameTextColor"
                 android:layout_gravity="center"
-                android:id="@+id/user_name" />
+                android:id="@+id/user_name"
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_email_tv"
-                android:textColor="@color/sliderTextColor"
+                android:textColor="@color/sliderTitleColor"
                 android:text="Email: "
                 android:textStyle="bold"
                 android:textSize="15sp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"/>
 
             <EditText
@@ -61,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/user_email"
                 android:enabled="false"
-                android:textColor="@color/inactiveDot"
+                android:textColor="@color/sliderTextColor"
                 android:textSize="15sp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"/>
@@ -70,10 +72,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_contact_tv"
-                android:textColor="@color/sliderTextColor"
+                android:textColor="@color/sliderTitleColor"
                 android:text="Contact: "
                 android:textStyle="bold"
                 android:textSize="15sp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"/>
 
             <EditText
@@ -81,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/user_contact"
                 android:enabled="false"
-                android:textColor="@color/inactiveDot"
+                android:textColor="@color/sliderTextColor"
                 android:textSize="15sp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"/>

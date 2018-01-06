@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="1dp">
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:id="@+id/personCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="3dp">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:id="@+id/contentViewPerson"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -25,7 +27,7 @@
                 android:textSize="20sp"
                 android:layout_marginLeft="3dp"
                 android:layout_centerVertical="true"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/appNameTextColor"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,6 +49,14 @@
                 android:textSize="20sp" />
 
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/inactiveDot"
+            android:layout_gravity="top"/>
 
     </android.support.v7.widget.CardView>
 </LinearLayout>

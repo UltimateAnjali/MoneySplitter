@@ -27,7 +27,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingTop="20dp"
-            android:textSize="@dimen/slider_text_size"
+            android:textSize="@dimen/slider_title_size"
             android:textColor="@color/sliderTitleColor"
             android:textStyle="bold" />
 

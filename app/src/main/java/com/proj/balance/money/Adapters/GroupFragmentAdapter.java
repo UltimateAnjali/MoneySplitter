@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.proj.balance.money.DataModels.GroupData;
 import com.proj.balance.money.DataModels.GroupOwingsData;
+import com.proj.balance.money.MyFonts;
 import com.proj.balance.money.R;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class GroupFragmentAdapter extends RecyclerView.Adapter<GroupFragmentAdap
 
     private Context mContext;
     private List<GroupOwingsData> groupOwingsDataList;
+    MyFonts fontFace;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView grpName, grpOwing, grpType, grpOwingTextDisplay;
@@ -51,6 +53,12 @@ public class GroupFragmentAdapter extends RecyclerView.Adapter<GroupFragmentAdap
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        //Binding font family for group name
+        fontFace = new MyFonts(mContext);
+        holder.grpName.setTypeface(fontFace.getMerri());
+        holder.grpType.setTypeface(fontFace.getVolk());
+        holder.grpOwingTextDisplay.setTypeface(fontFace.getMerri());
+
         GroupOwingsData grpData = groupOwingsDataList.get(position);
         holder.grpName.setText(grpData.getGrpName());
         holder.grpType.setText(grpData.getGrpType());
@@ -65,14 +73,14 @@ public class GroupFragmentAdapter extends RecyclerView.Adapter<GroupFragmentAdap
             if(temp.equals("+")){
                 holder.grpOwingTextDisplay.setText("You are owed");
                 holder.grpOwing.setText("$ "+value);
-                holder.grpOwingTextDisplay.setTextColor(mContext.getResources().getColor(R.color.trial));
-                holder.grpOwing.setTextColor(mContext.getResources().getColor(R.color.trial));
+                holder.grpOwingTextDisplay.setTextColor(mContext.getResources().getColor(R.color.greenOwing));
+                holder.grpOwing.setTextColor(mContext.getResources().getColor(R.color.greenOwing));
             }
             else if(temp.equals("-")){
                 holder.grpOwingTextDisplay.setText("You owe");
                 holder.grpOwing.setText("$ "+value);
-                holder.grpOwingTextDisplay.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
-                holder.grpOwing.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                holder.grpOwingTextDisplay.setTextColor(mContext.getResources().getColor(R.color.redOwing));
+                holder.grpOwing.setTextColor(mContext.getResources().getColor(R.color.redOwing));
             }
         }
 
