@@ -78,14 +78,16 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/view_bills_btn"
                 android:text="View All Bills"
                 android:layout_gravity="center"
                 android:textAllCaps="false"
-                android:padding="3dp"
+                android:padding="2dp"
                 style="@style/viewBills"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginBottom="10dp"/>
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

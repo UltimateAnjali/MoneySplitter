@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +36,8 @@ public class GroupDetails extends Fragment {
 
     public String groupKey;
     RecyclerView myRecyclerView;
-    TextView grpNameText, grpName, grpTypeText;
+    TextView grpNameText, grpName, grpTypeText, memberText;
+    Button viewBillsBtn;
     GroupData groupData = new GroupData();
     UserData userData;
     SingleGroupMembersData singleMemberData;
@@ -81,6 +83,8 @@ public class GroupDetails extends Fragment {
         grpNameText = (TextView)view.findViewById(R.id.grpNameTextView2);
         grpName = (TextView)view.findViewById(R.id.grpNameDisplay2);
         grpTypeText = (TextView)view.findViewById(R.id.grpTypeTextView);
+        viewBillsBtn = (Button) view.findViewById(R.id.view_bills_btn);
+        memberText = (TextView)view.findViewById(R.id.memberTextView);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         myRecyclerView.setLayoutManager(mLayoutManager);
@@ -92,6 +96,8 @@ public class GroupDetails extends Fragment {
         grpNameText.setTypeface(fontFace.getMerri());
         grpName.setTypeface(fontFace.getMont());
         grpTypeText.setTypeface(fontFace.getMont());
+        viewBillsBtn.setTypeface(fontFace.getMont());
+        memberText.setTypeface(fontFace.getMerri());
 
         getGroupData(groupKey);
 
