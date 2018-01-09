@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.proj.balance.money.Fragments.GroupDetails">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="Group: "
+                    android:textColor="@color/appNameTextColor"
+                    android:id="@+id/grpNameTextView2"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/appNameTextColor"
+                    android:background="@drawable/rounded_corner"
+                    android:padding="5dp"
+                    android:id="@+id/grpNameDisplay2"
+                    android:layout_toRightOf="@+id/grpNameTextView2"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/sliderTitleColor"
+                    android:text="~cool"
+                    android:textSize="15sp"
+                    android:id="@+id/grpTypeTextView"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Members"
+                android:background="@color/appNameTextColor"
+                android:textColor="@color/backgroundColor"
+                android:textSize="15sp"
+                android:paddingLeft="5dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/memberTextView"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:scrollbars="vertical"
+                android:id="@+id/dispGrpMembers"
+                android:layout_marginBottom="10dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="View All Bills"
+                android:layout_gravity="center"
+                android:textAllCaps="false"
+                android:padding="3dp"
+                style="@style/viewBills"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"/>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

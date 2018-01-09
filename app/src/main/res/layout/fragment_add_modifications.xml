@@ -22,17 +22,32 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:textSize="18sp"
-                android:text="Group: "
-                android:textColor="@color/appNameTextColor"
-                android:id="@+id/grpNameTextView"/>
+                android:layout_marginRight="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="Group: "
+                    android:textColor="@color/appNameTextColor"
+                    android:id="@+id/grpNameTextView"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/appNameTextColor"
+                    android:padding="5dp"
+                    android:background="@drawable/rounded_corner"
+                    android:id="@+id/grpNameDisplay"/>
+            </LinearLayout>
 
             <EditText
                 android:layout_width="match_parent"

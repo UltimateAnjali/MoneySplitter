@@ -61,7 +61,8 @@ public class AddMembersAdapter extends RecyclerView.Adapter<AddMembersAdapter.My
         final AddMembersData membersData = memberList.get(position);
 
         TextDrawable drawable = TextDrawable.builder()
-                .buildRound(String.valueOf(membersData.getPersonName().charAt(0)), mContext.getResources().getColor(R.color.letterColor));
+                .buildRound(String.valueOf(membersData.getPersonName().charAt(0)),
+                        mContext.getResources().getColor(R.color.letterColor));
         //ImageView image = (ImageView) findViewById(R.id.image_view);
         holder.personImage.setImageDrawable(drawable);
 

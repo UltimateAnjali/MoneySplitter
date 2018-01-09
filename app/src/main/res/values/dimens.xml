@@ -6,6 +6,7 @@
     <dimen name="slider_text_size">16sp</dimen>
     <dimen name="button_text_size">18sp</dimen>
     <dimen name="add_btn_text_size">15sp</dimen>
+    <dimen name="view_bill_btn_text_size">18sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="profile_image_size">80dp</dimen>
     <dimen name="toolbar_elevation">2dp</dimen>

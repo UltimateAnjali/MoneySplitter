@@ -92,6 +92,7 @@ public class GroupFragment extends Fragment {
                 transaction.commit();
             }
         });
+
         return view;
     }
 
@@ -164,8 +165,5 @@ public class GroupFragment extends Fragment {
                 }
             });
         }
-
     }
-
-
 }

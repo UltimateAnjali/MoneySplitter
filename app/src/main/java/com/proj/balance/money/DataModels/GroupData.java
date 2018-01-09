@@ -19,6 +19,7 @@ public class GroupData implements Parcelable{
     public String grpAdmin;
     public String grpKey;
     HashMap<String,String> members = new HashMap<>();
+    HashMap<String, Boolean> bills = new HashMap<>();
 
     public GroupData(){
     }
@@ -59,6 +60,10 @@ public class GroupData implements Parcelable{
         this.members = members;
     }
 
+    public void setBills(HashMap<String, Boolean> bills) {
+        this.bills = bills;
+    }
+
     //Getters
     public String getGrpName() {
         return grpName;
@@ -78,6 +83,10 @@ public class GroupData implements Parcelable{
         return members;
     }
 
+    public HashMap<String, Boolean> getBills() {
+        return bills;
+    }
+
 
     @Override
     public int describeContents() {
@@ -91,6 +100,7 @@ public class GroupData implements Parcelable{
         parcel.writeString(grpAdmin);
         parcel.writeString(grpKey);
         parcel.writeMap(members);
+        parcel.writeMap(bills);
     }
 
     public void readFromParcel(Parcel in) {
@@ -99,6 +109,6 @@ public class GroupData implements Parcelable{
         grpAdmin = in.readString();
         grpKey = in.readString();
         members = in.readHashMap(ClassLoader.getSystemClassLoader());
-
+        bills = in.readHashMap(ClassLoader.getSystemClassLoader());
     }
 }

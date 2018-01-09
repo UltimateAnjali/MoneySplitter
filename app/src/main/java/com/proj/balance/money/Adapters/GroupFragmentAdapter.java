@@ -3,14 +3,20 @@ package com.proj.balance.money.Adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.proj.balance.money.Activities.MainActivity;
 import com.proj.balance.money.DataModels.GroupData;
 import com.proj.balance.money.DataModels.GroupOwingsData;
+import com.proj.balance.money.Fragments.GroupDetails;
 import com.proj.balance.money.MyFonts;
 import com.proj.balance.money.R;
 
@@ -35,6 +41,27 @@ public class GroupFragmentAdapter extends RecyclerView.Adapter<GroupFragmentAdap
             grpOwing = (TextView)view.findViewById(R.id.grp_owing);
             grpType = (TextView)view.findViewById(R.id.grp_type_text);
             grpOwingTextDisplay = (TextView)view.findViewById(R.id.grpOwingText);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if(pos!=RecyclerView.NO_POSITION){
+                        GroupOwingsData posGrpOwingsData = groupOwingsDataList.get(pos);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("grpKey",posGrpOwingsData.getGrpKey());
+                        Fragment mFrag = GroupDetails.newInstance();
+                        FragmentTransaction transaction = ((MainActivity)mContext).getSupportFragmentManager().beginTransaction();
+                        mFrag.setArguments(bundle);
+                        transaction.replace(R.id.frame_layout, mFrag);
+                        //transaction.addToBackStack(null);
+                        transaction.commit();
+                        //Toast.makeText(mContext,"hg->"+posGrpOwingsData.getGrpName(),Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
         }
     }
 

@@ -22,6 +22,7 @@
     <color name="redOwing">#ff552f</color>
     <color name="addBtnColor">#66BB6A</color>
     <color name="letterColor">#F9A825</color>
+    <color name="viewBillRipple">#00C853</color>
 
     <color name="backgroundColor">#ECEFF1</color>
     <color name="bottomNav">#F5F5F5</color>

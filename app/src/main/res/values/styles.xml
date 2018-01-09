@@ -30,4 +30,10 @@
         <item name="android:background">@drawable/add_round_btn</item>
     </style>
 
+    <style name="viewBills">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/view_bill_btn_text_size</item>
+        <item name="android:background">@drawable/view_bills_btn</item>
+    </style>
+
 </resources>

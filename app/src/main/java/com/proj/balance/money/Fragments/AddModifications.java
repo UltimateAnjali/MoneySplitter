@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ import java.util.List;
 public class AddModifications extends Fragment {
 
     EditText amt, desc;
-    TextView paidBy, splitAmtText, grpNameText;
+    TextView paidBy, splitAmtText, grpNameText, grpNameDisp;
     Spinner payerSpinner, splitSpinner;
     FloatingActionButton right;
     ImageView currency;
@@ -143,6 +144,7 @@ public class AddModifications extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_modifications, container, false);
 
         grpNameText = (TextView)view.findViewById(R.id.grpNameTextView);
+        grpNameDisp = (TextView)view.findViewById(R.id.grpNameDisplay);
         desc = (EditText)view.findViewById(R.id.enterDescEdit);
         currency = (ImageView)view.findViewById(R.id.currencyImage);
         amt = (EditText)view.findViewById(R.id.enterAmtEdit);
@@ -154,13 +156,14 @@ public class AddModifications extends Fragment {
 
         fontFace = new MyFonts(getContext());
         grpNameText.setTypeface(fontFace.getMerri());
+        grpNameDisp.setTypeface(fontFace.getMont());
         desc.setTypeface(fontFace.getMont());
         amt.setTypeface(fontFace.getMont());
         paidBy.setTypeface(fontFace.getMerri());
         splitAmtText.setTypeface(fontFace.getMerri());
 
         //Setting the group name
-        grpNameText.setText("Group: "+grp.getGrpName());
+        grpNameDisp.setText(grp.getGrpName());
         //Setting Image resource for currency
         currency.setImageResource(R.drawable.canadian_dollar);
 
@@ -191,6 +194,14 @@ public class AddModifications extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 splitTypeValue = adapterView.getItemAtPosition(i).toString();
+//                if(splitTypeValue.equals("Unequally")){
+//                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//                    alertDialogBuilder.setTitle("Hey");
+//                    alertDialogBuilder.setMessage("Hii");
+//                    AlertDialog dialog = alertDialogBuilder.create();
+//                    dialog.show();
+//                }
+
             }
 
             @Override
