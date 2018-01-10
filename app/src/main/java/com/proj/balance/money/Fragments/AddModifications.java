@@ -61,7 +61,7 @@ public class AddModifications extends Fragment {
 
     String selectedPayer, selectedPayerKey, splitTypeValue, description, totalAmount;
 
-    private  String TAG ="Modi------>>>>>>";
+    private String TAG = "Modi------>>>>>>";
 
     int loopCount = 0;
     int userCount = 0;
@@ -213,7 +213,39 @@ public class AddModifications extends Fragment {
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setTheValues();
+                if(amt.getText().toString().equals(null) || amt.getText().toString().equals("")){
+                    Toast.makeText(getContext(),"Please Enter Amount",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    if(splitTypeValue.equals("Equally")){
+                        setTheValues();
+                    }
+                    else if(splitTypeValue.equals("Unequally")){
+
+                        Fragment fragment = UnequalSplit.newInstance();
+                        Bundle bundle = new Bundle();
+
+                        bundle.putParcelable("myGrp",grp);
+                        bundle.putString("desc",desc.getText().toString());
+                        bundle.putString("amt",amt.getText().toString());
+                        bundle.putString("payer",selectedPayerKey);
+                        bundle.putString("splitType",splitTypeValue);
+
+                        fragment.setArguments(bundle);
+                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        transaction.addToBackStack(null);
+                        transaction.replace(R.id.frame_layout, fragment);
+                        transaction.commit();
+                    }
+                }
+
+            }
+        });
+
+        currency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(),"Canadian Dollar",Toast.LENGTH_SHORT).show();
             }
         });
         return view;
@@ -279,7 +311,7 @@ public class AddModifications extends Fragment {
             }
 
         }catch (Exception e){
-            Toast.makeText(getContext(),"Error occured",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Please fill the details",Toast.LENGTH_SHORT).show();
         }
 
     }

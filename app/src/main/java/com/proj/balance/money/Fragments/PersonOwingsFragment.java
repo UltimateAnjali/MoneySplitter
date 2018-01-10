@@ -66,16 +66,15 @@ public class PersonOwingsFragment extends Fragment{
 
         //Setting the view
         View view = inflater.inflate(R.layout.fragment_person_owings, container, false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.persRecyclerView);
-        noowings = (TextView)view.findViewById(R.id.no_owings_text);
+        recyclerView = (RecyclerView) view.findViewById(R.id.persRecyclerView);
+        noowings = (TextView) view.findViewById(R.id.no_owings_text);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        return  view;
-
+        return view;
     }
 
     private void checkIfDataExists() {

@@ -11,7 +11,7 @@
     <color name="sliderTitleColor">#455A64</color>
     <color name="sliderTextColor">#607D8B</color>
     <color name="googleColor">#d34836</color>
-    <color name="googleRippleColor">#FF6E40</color>
+    <color name="googleRippleColor">#E53935</color>
 
     <!--Other pages-->
     <color name="loginBtnBackground">#4285F4</color>

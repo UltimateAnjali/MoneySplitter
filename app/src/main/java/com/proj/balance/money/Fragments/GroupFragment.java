@@ -88,6 +88,8 @@ public class GroupFragment extends Fragment {
                 bundle.putParcelableArrayList("myArray", grpDataList);
                 fragment.setArguments(bundle);
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.add(GroupFragment.newInstance(),"groupFrag");
+                transaction.addToBackStack("groupFrag");
                 transaction.replace(R.id.frame_layout, fragment);
                 transaction.commit();
             }

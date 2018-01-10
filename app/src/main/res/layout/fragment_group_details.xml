@@ -88,6 +88,20 @@
                 android:layout_marginRight="25dp"
                 android:layout_marginBottom="10dp"/>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/delete_group_btn"
+                android:text="Delete Group"
+                android:layout_gravity="center"
+                android:textAllCaps="false"
+                android:padding="2dp"
+                style="@style/deleteGroup"
+                android:visibility="gone"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"/>
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +38,7 @@ public class GroupDetails extends Fragment {
     public String groupKey;
     RecyclerView myRecyclerView;
     TextView grpNameText, grpName, grpTypeText, memberText;
-    Button viewBillsBtn;
+    Button viewBillsBtn, deleteBtn;
     GroupData groupData = new GroupData();
     UserData userData;
     SingleGroupMembersData singleMemberData;
@@ -84,6 +85,7 @@ public class GroupDetails extends Fragment {
         grpName = (TextView)view.findViewById(R.id.grpNameDisplay2);
         grpTypeText = (TextView)view.findViewById(R.id.grpTypeTextView);
         viewBillsBtn = (Button) view.findViewById(R.id.view_bills_btn);
+        deleteBtn = (Button)view.findViewById(R.id.delete_group_btn);
         memberText = (TextView)view.findViewById(R.id.memberTextView);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 1);
@@ -100,6 +102,17 @@ public class GroupDetails extends Fragment {
         memberText.setTypeface(fontFace.getMerri());
 
         getGroupData(groupKey);
+
+        viewBillsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
+
+//        if(groupData.getGrpAdmin().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+//            deleteBtn.setVisibility(View.VISIBLE);
+//        }
 
         return view;
     }

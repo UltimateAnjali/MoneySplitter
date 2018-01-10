@@ -162,8 +162,8 @@ public class AddMembers extends AppCompatActivity {
                 int indexOfDisplayNumber = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
                 while (cursor.moveToNext()) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
+//                    progressBar.setVisibility(View.VISIBLE);
+//                    recyclerView.setVisibility(View.GONE);
                     String normalizedNumber = cursor.getString(indexOfNormalizedNumber);
                     if (normalizedNumbersAlreadyFound.add(normalizedNumber)) {
                         String displayName = cursor.getString(indexOfDisplayName);
@@ -186,8 +186,6 @@ public class AddMembers extends AppCompatActivity {
 
             } finally {
                 cursor.close();
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
             }
         }
         membersAdapter.notifyDataSetChanged();
@@ -235,6 +233,8 @@ public class AddMembers extends AppCompatActivity {
 
                         if(LoopHandling())
                         {
+                            progressBar.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
                             break;
                         }
                         //System.out.println("------------>membersDataList "+membersDataList.get(0).getPersonName());
@@ -418,46 +418,13 @@ public class AddMembers extends AppCompatActivity {
             finish();
         }
 
-//        final ArrayList<String> databaseMembers = new ArrayList<>();
-//        final DatabaseReference myref = dbref
-//                .child(getString(R.string.db_name))
-//                .child(getString(R.string.user_members))
-//                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//        Query query2 = myref;
-//        query2.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
-//                        databaseMembers.add(memberSnapshot.getKey());
-//                    }
-//                    //Toast.makeText(getApplicationContext(),"Exists",Toast.LENGTH_SHORT).show();
-//                } else {
-//                    myref.setValue(members);
-//                    //Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        if (databaseMembers != null) {
-//            for (int cnt = 0; cnt < mSelectedMembers.size(); cnt++) {
-//                if (!databaseMembers.contains(mSelectedMembers.get(cnt))) {
-//                    databaseMembers.add(mSelectedMembers.get(cnt));
-//                    DatabaseReference dbref1 = dbref.child(getString(R.string.db_name))
-//                            .child(getString(R.string.user_members))
-//                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//                    dbref1.child(mSelectedMembers.get(cnt)).setValue("0.00");
-//                }
-//            }
-//        }
+    }
 
-
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(),CreateGroup.class);
+        startActivity(intent);
+        finish();
     }
 }
