@@ -229,12 +229,12 @@ public class AddMembers extends AppCompatActivity {
                             data.setKey(userData.getFirebaseUid());
                             membersDataList.add(data);
                             membersAdapter.notifyDataSetChanged();
+                            progressBar.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
                         }
 
                         if(LoopHandling())
                         {
-                            progressBar.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
                             break;
                         }
                         //System.out.println("------------>membersDataList "+membersDataList.get(0).getPersonName());

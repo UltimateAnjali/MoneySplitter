@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -106,7 +107,14 @@ public class GroupDetails extends Fragment {
         viewBillsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                Fragment fragment = ViewBillsFragment.newInstance();
+                Bundle bundle = new Bundle();
+                bundle.putString("key",groupKey);
+                fragment.setArguments(bundle);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                //transaction.addToBackStack(fragment.getClass().toString());
+                transaction.replace(R.id.frame_layout, fragment);
+                transaction.commit();
             }
         });
 
